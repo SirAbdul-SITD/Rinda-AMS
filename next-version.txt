@@ -1,0 +1,2 @@
+What should be included in the next version
+    - Dashboard view index for each module

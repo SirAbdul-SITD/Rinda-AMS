@@ -1,0 +1,39 @@
+ <div class="col-md-3">
+                      <div class="card shadow text-center mb-4">
+                        <div class="card-body file">
+                          <div class="file-action">
+                            <button type="button" class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span class="text-muted sr-only">Action</span>
+                            </button>
+                            <div class="dropdown-menu m-2">
+                              <a class="dropdown-item" href="#"><i class="fe fe-chevrons-right fe-12 mr-4"></i>Move</a>
+                              <a class="dropdown-item" href="#"><i class="fe fe-copy fe-12 mr-4"></i>Copy</a>
+                              <a class="dropdown-item" href="#"><i class="fe fe-edit-3 fe-12 mr-4"></i>Rename</a>
+                              <a class="dropdown-item" href="#"><i class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+                              <a class="dropdown-item" href="#"><i class="fe fe-share fe-12 mr-4"></i>Share</a>
+                              <a class="dropdown-item" href="#"><i class="fe fe-download fe-12 mr-4"></i>Download</a>
+                            </div>
+                          </div>
+                          <div class="circle circle-lg bg-secondary my-4">
+                            <?php if ($file['type'] == 'image') {
+                              echo '<span class="fe fe-image fe-24 text-white"></span>';
+                            } elseif ($file['type'] == 'document') {
+                              echo '<span class="fe fe-file-text fe-24 text-white"></span>';
+                            } elseif ($file['type'] == 'audio') {
+                              echo '<span class="fe fe-music fe-24 text-white"></span>';
+                            } elseif ($file['type'] == 'video') {
+                              echo '<span class="fe fe-film fe-24 text-white"></span>';
+                            }
+                            ?>
+                          </div>
+                        </div> <!-- .card-body -->
+                        <div class="card-footer bg-transparent border-0 fname">
+                          <strong><span class="dot dot-md bg-success mr-2"></span>
+                            <?= $file['title'] ?>
+                          </strong>
+                        </div> <!-- .card-footer -->
+                      </div> <!-- .card -->
+                    </div> <!-- .col -->
+
+              
