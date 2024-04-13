@@ -1,4 +1,4 @@
-<?php require 'settings.php';
+<?php require '../settings.php';
 
 if (isset($_GET['reg'])) {
   $reg = $_GET['reg'];

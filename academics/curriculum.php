@@ -1,5 +1,5 @@
 <?php
-require('settings.php');
+require('../settings.php');
 if (isset($_GET['class'])) {
   $class = $_GET['class'];
 } else {

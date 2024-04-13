@@ -1,4 +1,4 @@
-<?php require('settings.php');
+<?php require('../settings.php');
 
 if (!isset($_POST['admission_no'])) {
   echo '<script>alert("Please select a student.");</script>';

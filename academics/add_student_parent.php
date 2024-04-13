@@ -1,4 +1,4 @@
-<?php require('settings.php');
+<?php require('../settings.php');
 
 if (isset($_POST['id'])) {
   $student_id = $_POST['id'];
@@ -298,7 +298,7 @@ if (isset($_POST['id'])) {
                     <section>
                       <?php
 
-                      require_once 'settings.php';
+                      require_once '../settings.php';
 
                       // Retrieve parent data from the database
                       try {

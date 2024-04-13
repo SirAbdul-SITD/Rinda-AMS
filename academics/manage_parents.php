@@ -1,4 +1,4 @@
-<?php require('settings.php');
+<?php require('../settings.php');
 
 if (isset($_POST['id'])) {
   $student_id = $_POST['id'];

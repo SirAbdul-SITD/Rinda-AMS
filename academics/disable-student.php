@@ -1,4 +1,4 @@
-<?php require 'settings.php'; ?>
+<?php require '../settings.php'; ?>
 <!doctype html>
 <html lang="en">
 

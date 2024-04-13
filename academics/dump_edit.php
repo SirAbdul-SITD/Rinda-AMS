@@ -1,6 +1,6 @@
 <?php
 
-require_once 'settings.php';
+require_once '../settings.php';
 
 // Initialize response array
 $response = ['success' => false, 'message' => ''];

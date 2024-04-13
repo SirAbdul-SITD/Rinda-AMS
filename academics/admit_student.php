@@ -1,4 +1,4 @@
-<?php require('settings.php'); ?>
+<?php require('../settings.php'); ?>
 <!doctype html>
 <html lang="en">
 
@@ -536,7 +536,7 @@
                       </div>
                       <?php
 
-                      require_once 'settings.php';
+                      require_once '../settings.php';
 
                       // Retrieve parent data from the database
                       try {

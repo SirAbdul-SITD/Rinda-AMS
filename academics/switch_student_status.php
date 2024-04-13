@@ -1,5 +1,5 @@
 <?php
-require 'settings.php';
+require '../settings.php';
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
