@@ -395,7 +395,7 @@
                         <?php endforeach;
                       } ?>
                       <br>
-                      <button type="submit" class="btn mb-2 btn-success w-100">Success<span
+                      <button type="submit" class="btn mb-2 btn-success w-100">Add Class<span
                           class="fe fe-chevron-right fe-16 ml-2"></span></button>
                     </form>
                   </div>
