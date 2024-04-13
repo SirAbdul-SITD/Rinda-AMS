@@ -380,6 +380,7 @@
                           if (count($classes) === 0) {
                             echo '<option value="" disabled>No class added yet!</option>';
                           } else {
+                            echo '<option value="" selected disabled>Select Class</option>';
                             foreach ($classes as $class) {
                               $classId = $class['id'];
                               $className = $class['class'];

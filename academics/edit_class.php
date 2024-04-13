@@ -22,7 +22,7 @@ if (isset($_POST['id']) && isset($_POST['newName'])) {
         $query = "SELECT id FROM classes WHERE class = :newName AND section_id = :classSection";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':newName', $newName, PDO::PARAM_STR);
-        $stmt->bindParam(':classSection', $classSection, PDO::PARAM_STR);
+        $stmt->bindParam(':classSection', $classSection, PDO::PARAM_INT);
         $stmt->execute();
         $existingClass = $stmt->fetch(PDO::FETCH_ASSOC);
 
