@@ -13,10 +13,6 @@ if (!isset($_SESSION['user'])) {
   exit(); 
 }
 
-// $servername = "localhost";
-// $username = "stradafr_rindaams";
-// $password = "Np@XUaYcBMbp9nV";
-// $database = "stradafr_rindaams";
 
 
 $servername = "localhost";

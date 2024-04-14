@@ -8,10 +8,6 @@ session_start();
 
 
 
-// $servername = "localhost";
-// $username = "stradafr_rindaams";
-// $password = "Np@XUaYcBMbp9nV";
-// $database = "stradafr_rindaams";
 
 
 $servername = "localhost";

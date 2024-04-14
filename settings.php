@@ -13,10 +13,6 @@ session_start();
 //   exit(); // Ensure that script execution stops after redirection
 // }
 
-// $servername = "localhost";
-// $username = "stradafr_rindaams";
-// $password = "Np@XUaYcBMbp9nV";
-// $database = "stradafr_rindaams";
 
 
 $servername = "localhost";
