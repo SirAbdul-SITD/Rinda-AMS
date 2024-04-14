@@ -267,15 +267,62 @@
                 <h2 class="page-title">Subjects</h2>
               </div>
               <div class="col-auto">
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assignTeacher"><span
-                    class="fe fe-plus fe-16 mr-3"></span>Assign</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                  data-target="#assignTeacher">Assign</button>
+                <button type="button" class="btn btn-success" id="addSubjectBtn">Add Subject</button>
               </div>
             </div>
 
+
+
+
             <div class="row my-4">
+              <!-- Add New Subject -->
+              <div class="col-md-12 mb-2" id="addSubjectForm" style="display: none;">
+                <div class="card shadow">
+                  <div class="card-body">
+                    <strong>Add New Subject</strong>
+
+                    <form class="needs-validation add_subject_form" novalidate>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="subjectName" name="subject"
+                          placeholder="Subject Title" required>
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                      <div class="form-group">
+                        <label for="classSelect">Select Class</label>
+                        <select id="classSelect" class="form-control" name="class" required>
+                          <?php
+                          $query = "SELECT c.*, s.id AS section_id, s.section FROM classes c INNER JOIN sections s ON c.section_id = s.id WHERE c.status = 1 ORDER BY c.class ASC";
+                          $stmt = $pdo->prepare($query);
+                          $stmt->execute();
+                          $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                          if (count($classes) === 0) {
+                            echo '<option value="" disabled>No class added yet!</option>';
+                          } else {
+                            echo '<option value="" selected disabled>Select Class</option>';
+                            foreach ($classes as $class) {
+                              $classId = $class['id'];
+                              $className = $class['class'];
+                              $classSection = $class['section'];
+                              echo "<option value='$classId'>$className - $classSection Section</option>";
+                            }
+                          }
+                          ?>
+
+                        </select>
+                      </div>
+                      <button type="submit" class="btn mb-2 btn-success w-100">Add Subject<span
+                          class="fe fe-chevron-right fe-16 ml-2"></span></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
               <!-- Small table -->
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <div class="card shadow">
                   <div class="card-body">
                     <?php
@@ -356,50 +403,6 @@
               </div> <!-- simple table -->
 
 
-              <!-- Add New Subject -->
-              <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <strong>Add New Subject</strong>
-
-                    <form class="needs-validation add_subject_form" novalidate>
-                      <div class="form-group">
-                        <input type="text" class="form-control" id="subjectName" name="subject"
-                          placeholder="Subject Title" required>
-                        <div class="valid-feedback">Looks good!</div>
-                      </div>
-                      <div class="form-group">
-                        <label for="classSelect">Select Class</label>
-                        <select id="classSelect" class="form-control" name="class" required>
-                          <?php
-                          $query = "SELECT c.*, s.id AS section_id, s.section FROM classes c INNER JOIN sections s ON c.section_id = s.id WHERE c.status = 1 ORDER BY c.class ASC";
-                          $stmt = $pdo->prepare($query);
-                          $stmt->execute();
-                          $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                          if (count($classes) === 0) {
-                            echo '<option value="" disabled>No class added yet!</option>';
-                          } else {
-                            echo '<option value="" selected disabled>Select Class</option>';
-                            foreach ($classes as $class) {
-                              $classId = $class['id'];
-                              $className = $class['class'];
-                              $classSection = $class['section'];
-                              echo "<option value='$classId'>$className - $classSection Section</option>";
-                            }
-                          }
-                          ?>
-
-                        </select>
-                      </div>
-                      <button type="submit" class="btn mb-2 btn-success w-100">Add Subject<span
-                          class="fe fe-chevron-right fe-16 ml-2"></span></button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-
-
 
             </div> <!-- end section -->
           </div> <!-- .col-12 -->
@@ -426,7 +429,7 @@
                     <label for="class">Subjects</label>
                     <select id="class" class="form-control select1" required name="subject">
                       <?php
-                      $query = "SELECT s.*, c.id, c.class FROM subjects s INNER JOIN classes c ON s.class_id = c.id  WHERE s.status = 1 AND c.status = 1 ORDER BY s.subject ASC";
+                      $query = "SELECT s.*, c.id AS class_id, c.class FROM subjects s INNER JOIN classes c ON s.class_id = class_id  WHERE s.status = 1 AND c.status = 1 ORDER BY s.subject ASC";
                       $stmt = $pdo->prepare($query);
                       $stmt->execute();
                       $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -577,82 +580,82 @@
       </div>
 
       <!-- Menu Modal -->
-     <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-          aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Dashboard</p>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;" class="text-success">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Academics</p>
+                  </a>
+                </div>
               </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Dashboard</p>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="#" style="text-decoration: none;" class="text-success">
-                      <div class="squircle bg-success justify-content-center">
-                        <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Academics</p>
-                    </a>
-                  </div>
+                  <p>E-Learning</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-trello fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>E-Learning</p>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-mail fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Messages</p>
-                  </div>
+                  <p>Messages</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-book fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Library</p>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-book fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="../hr/" style="text-decoration: none;" class="text-white">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>HR</p>
-                    </a>
-                  </div>
+                  <p>Library</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
+                <div class="col-6 text-center">
+                  <a href="../hr/" style="text-decoration: none;" class="text-white">
                     <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
+                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Assessments</p>
+                    <p>HR</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Settings</p>
+                  <p>Assessments</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
                   </div>
+                  <p>Settings</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
- 
+      </div>
+
       <!-- Assign Warning Modal -->
       <div class="modal fade" id="warningModel" tabindex="-1" role="dialog" aria-labelledby="warningModelTitle"
         aria-hidden="true">
@@ -685,106 +688,7 @@
   <script src='../js/jquery.dataTables.min.js'></script>
   <script src='../js/dataTables.bootstrap4.min.js'></script>
   <script src='../js/jquery.validate.min.js'></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const editButtons = document.querySelectorAll('.edit-action');
-      const removeButtons = document.querySelectorAll('.remove-action');
 
-      editButtons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
-          event.preventDefault();
-          const parentTr = event.target.closest('tr');
-          const editableField = parentTr.querySelector('.editable-field');
-          const spanElement = editableField.querySelector('span');
-          const inputGroup = editableField.querySelector('.input-group');
-          const subjectId = editableField.dataset.id; // Get the subject ID
-
-          // Show input field and hide span
-          spanElement.style.display = 'none';
-          inputGroup.style.display = 'flex';
-          const inputElement = inputGroup.querySelector('input');
-          inputElement.focus();
-
-          // Save button
-          const saveButton = inputGroup.querySelector('.save-button');
-          saveButton.addEventListener('click', function () {
-            const newName = inputElement.value;
-
-            $.ajax({
-              type: 'POST',
-              url: 'edit_subject.php',
-              data: { id: subjectId, newName: newName }, // Pass subject ID and new name
-              dataType: 'json',
-              success: function (response) {
-                if (response.success) {
-                  displayPopup(response.message, true);
-                  // Update text with input value
-                  spanElement.textContent = inputElement.value;
-
-                  // Hide input field and show span
-                  inputGroup.style.display = 'none';
-                  spanElement.style.display = 'inline-block';
-                } else {
-                  displayPopup(response.message, false);
-                }
-              },
-              error: function (error, xhr) {
-                displayPopup('Error occurred during request. Contact Admin', false);
-              },
-            });
-          });
-
-          // Cancel button
-          const cancelButton = inputGroup.querySelector('.cancel-button');
-          cancelButton.addEventListener('click', function () {
-            // Hide input field and show span without changing the text
-            inputGroup.style.display = 'none';
-            spanElement.style.display = 'inline-block';
-          });
-        });
-      });
-
-
-      removeButtons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
-          event.preventDefault();
-          const parentTr = event.target.closest('tr');
-          const subjectId = parentTr.dataset.id;
-
-          // Show confirmation modal
-          $('#confirmationModal').modal('show');
-
-          // Add click event listener to the confirmation button
-          $('.confirm-remove').off('click').on('click', function () {
-            // Send AJAX request to remove the subject
-            $.ajax({
-              type: 'POST',
-              url: 'remove_subject.php',
-              data: { id: subjectId },
-              dataType: 'json',
-              success: function (response) {
-                if (response.success) {
-                  // Remove the row from the table
-                  parentTr.remove();
-                  displayPopup(response.message, true);
-                } else {
-                  displayPopup(response.message, false);
-                }
-              },
-              error: function (error, xhr) {
-                displayPopup('Error occurred during request. Contact Admin', false);
-              },
-            });
-
-            // Hide the modal after action
-            $('#confirmationModal').modal('hide');
-          });
-        });
-      });
-
-    });
-
-  </script>
   <script>
     //Function to display a popup message
     function displayPopup(message, success) {
@@ -897,6 +801,119 @@
       });
     });
 
+
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const addSubjectBtn = $('#addSubjectBtn');
+      const addSubjectForm = $('#addSubjectForm');
+
+      addSubjectBtn.click(function () {
+        if (addSubjectForm.is(':hidden')) {
+          // Show the add subject form
+          addSubjectForm.slideDown();
+          addSubjectBtn.text('Hide Form'); // Change button text to 'Hide Form'
+        } else {
+          // Hide the add subject form
+          addSubjectForm.slideUp();
+          addSubjectBtn.text('Add Subject'); // Change button text back to 'Add Subject'
+        }
+      });
+
+      // Event delegation for edit action
+      document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('edit-action')) {
+          event.preventDefault();
+          const parentTr = event.target.closest('tr');
+          const editableField = parentTr.querySelector('.editable-field');
+          const spanElement = editableField.querySelector('span');
+          const inputGroup = editableField.querySelector('.input-group');
+          const subjectId = editableField.dataset.id; // Get the subject ID
+
+          // Show input field and hide span
+          spanElement.style.display = 'none';
+          inputGroup.style.display = 'flex';
+          const inputElement = inputGroup.querySelector('input');
+          inputElement.focus();
+
+          // Save button
+          const saveButton = inputGroup.querySelector('.save-button');
+          saveButton.addEventListener('click', function () {
+            const newName = inputElement.value;
+
+            $.ajax({
+              type: 'POST',
+              url: 'edit_subject.php',
+              data: { id: subjectId, newName: newName }, // Pass subject ID and new name
+              dataType: 'json',
+              success: function (response) {
+                if (response.success) {
+                  displayPopup(response.message, true);
+                  // Update text with input value
+                  spanElement.textContent = inputElement.value;
+
+                  // Hide input field and show span
+                  inputGroup.style.display = 'none';
+                  spanElement.style.display = 'inline-block';
+                } else {
+                  displayPopup(response.message, false);
+                }
+              },
+              error: function (error, xhr) {
+                displayPopup('Error occurred during request. Contact Admin', false);
+              },
+            });
+          });
+
+          // Cancel button
+          const cancelButton = inputGroup.querySelector('.cancel-button');
+          cancelButton.addEventListener('click', function () {
+            // Hide input field and show span without changing the text
+            inputGroup.style.display = 'none';
+            spanElement.style.display = 'inline-block';
+          });
+        }
+      });
+
+      // Event delegation for remove action
+      document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('remove-action')) {
+          event.preventDefault();
+          const parentTr = event.target.closest('tr');
+          const subjectId = parentTr.dataset.id;
+
+          // Show confirmation modal
+          $('#confirmationModal').modal('show');
+
+          // Add click event listener to the confirmation button
+          $('.confirm-remove').off('click').on('click', function () {
+            // Send AJAX request to remove the subject
+            $.ajax({
+              type: 'POST',
+              url: 'remove_subject.php',
+              data: { id: subjectId },
+              dataType: 'json',
+              success: function (response) {
+                if (response.success) {
+                  // Remove the row from the table
+                  parentTr.remove();
+                  displayPopup(response.message, true);
+                } else {
+                  displayPopup(response.message, false);
+                }
+              },
+              error: function (error, xhr) {
+                displayPopup('Error occurred during request. Contact Admin', false);
+              },
+            });
+
+            // Hide the modal after action
+            $('#confirmationModal').modal('hide');
+          });
+        }
+      });
+    });
 
   </script>
   <script>

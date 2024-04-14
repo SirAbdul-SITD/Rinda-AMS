@@ -1,7 +1,7 @@
 <?php
 
 // Include your database connection file
-require('../settings.php');
+require('settings.php');
 
 // Check if the designation ID is provided in the GET request
 if (isset($_GET['designationId'])) {

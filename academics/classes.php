@@ -267,14 +267,56 @@
                 <h2 class="page-title">Classes</h2>
               </div>
               <div class="col-auto">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal"><span
-                    class="fe fe-plus fe-16 mr-3"></span>Assign</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                  data-target="#eventModal">Assign</button>
+                <button type="button" class="btn btn-success" id="addClassBtn">Add Class</button>
+
               </div>
             </div>
 
-            <div class="row my-4">
+
+
+            <div class="row my-4"><!-- Add Class -->
+              <div class="col-md-12 mb-2" id="addClassForm" style="display: none;">
+                <div class="card shadow">
+                  <div class="card-body">
+                    <strong>Add New Class</strong>
+
+                    <form class="needs-validation add_class_form" action="" method="post">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="ClassName" placeholder="Class Name" required
+                          name="class">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                      <?php
+                      $query = "SELECT * FROM sections ORDER BY `sections`.`section` ASC";
+                      $stmt = $pdo->prepare($query);
+                      $stmt->execute();
+                      $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                      if (count($sections) === 0) {
+                        echo '<p class="text-center">No section added Yet!</p>';
+                      } else {
+                        foreach ($sections as $section): ?>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="<?= $section['section']; ?>" name="section_id"
+                              value="<?= $section['id']; ?>" class="custom-control-input" required>
+                            <label class="custom-control-label" for="<?= $section['section']; ?>"><?= $section['section']; ?>
+                              Section</label>
+                          </div>
+                        <?php endforeach;
+                      } ?>
+                      <br>
+                      <button type="submit" class="btn mb-2 btn-success w-100">Add Class<span
+                          class="fe fe-chevron-right fe-16 ml-2"></span></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
               <!-- Small table -->
-              <div class="col-md-8 ">
+              <div class="col-md-12 ">
                 <div class="card shadow">
                   <div class="card-body">
 
@@ -365,43 +407,6 @@
                 </div>
               </div> <!-- simple table -->
 
-              <!-- Add Class -->
-              <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <strong>Add New Class</strong>
-
-                    <form class="needs-validation add_class_form" action="" method="post">
-                      <div class="form-group">
-                        <input type="text" class="form-control" id="ClassName" placeholder="Class Name" required
-                          name="class">
-                        <div class="valid-feedback">Looks good!</div>
-                      </div>
-                      <?php
-                      $query = "SELECT * FROM sections ORDER BY `sections`.`section` ASC";
-                      $stmt = $pdo->prepare($query);
-                      $stmt->execute();
-                      $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                      if (count($sections) === 0) {
-                        echo '<p class="text-center">No section added Yet!</p>';
-                      } else {
-                        foreach ($sections as $section): ?>
-                          <div class="custom-control custom-radio">
-                            <input type="radio" id="<?= $section['section']; ?>" name="section_id"
-                              value="<?= $section['id']; ?>" class="custom-control-input" required>
-                            <label class="custom-control-label" for="<?= $section['section']; ?>"><?= $section['section']; ?> Section</label>
-                          </div>
-                        <?php endforeach;
-                      } ?>
-                      <br>
-                      <button type="submit" class="btn mb-2 btn-success w-100">Add Class<span
-                          class="fe fe-chevron-right fe-16 ml-2"></span></button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-
 
             </div> <!-- end desktop section -->
 
@@ -423,27 +428,27 @@
             <form class="needs-validation assign_class_form">
               <div class="modal-body p-4">
 
-              <div class="form-row">
+                <div class="form-row">
                   <div class="form-group col-12">
                     <label for="class">Classes</label>
                     <select id="class" class="form-control select1" required name="class">
                       <?php
-                       $query = "SELECT c.*, s.* FROM classes c INNER JOIN sections s ON c.section_id = s.id WHERE c.status = 1 ORDER BY c.class ASC";
-                       $stmt = $pdo->prepare($query);
-                       $stmt->execute();
-                       $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-               
-                       if (count($classes) === 0) {
-                           echo '<option value="" selected disabled>No class added Yet!</option>';
-                       } else {
-                           echo "<option value=''>Select Class</option>";
-                           foreach ($classes as $class):
-                            $w = $class['section'];
-                               $x = $class['id'];
-                               $y = $class['class'];
-                               $z = $class['section_id'];
-                               echo "<option value='$x'>$y - $w Section</option>";
-                           endforeach;
+                      $query = "SELECT c.*, s.* FROM classes c INNER JOIN sections s ON c.section_id = s.id WHERE c.status = 1 ORDER BY c.class ASC";
+                      $stmt = $pdo->prepare($query);
+                      $stmt->execute();
+                      $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                      if (count($classes) === 0) {
+                        echo '<option value="" selected disabled>No class added Yet!</option>';
+                      } else {
+                        echo "<option value=''>Select Class</option>";
+                        foreach ($classes as $class):
+                          $w = $class['section'];
+                          $x = $class['id'];
+                          $y = $class['class'];
+                          $z = $class['section_id'];
+                          echo "<option value='$x'>$y - $w Section</option>";
+                        endforeach;
                       }
                       ?>
                     </select>
@@ -613,82 +618,82 @@
       </div>
 
       <!-- Menu Modal -->
-     <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-          aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Dashboard</p>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;" class="text-success">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Academics</p>
+                  </a>
+                </div>
               </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Dashboard</p>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="#" style="text-decoration: none;" class="text-success">
-                      <div class="squircle bg-success justify-content-center">
-                        <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Academics</p>
-                    </a>
-                  </div>
+                  <p>E-Learning</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-trello fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>E-Learning</p>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-mail fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Messages</p>
-                  </div>
+                  <p>Messages</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-book fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Library</p>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-book fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="../hr/" style="text-decoration: none;" class="text-white">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>HR</p>
-                    </a>
-                  </div>
+                  <p>Library</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
+                <div class="col-6 text-center">
+                  <a href="../hr/" style="text-decoration: none;" class="text-white">
                     <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
+                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Assessments</p>
+                    <p>HR</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Settings</p>
+                  <p>Assessments</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
                   </div>
+                  <p>Settings</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
- 
+      </div>
+
 
     </main> <!-- main -->
 
@@ -710,11 +715,9 @@
   <!-- Edit and remove actions -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const editButtons = document.querySelectorAll('.edit-action');
-      const removeButtons = document.querySelectorAll('.remove-action');
-
-      editButtons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
+      // Event delegation for edit action
+      document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('edit-action')) {
           event.preventDefault();
           const parentTr = event.target.closest('tr');
           const editableField = parentTr.querySelector('.editable-field');
@@ -765,18 +768,15 @@
             inputGroup.style.display = 'none';
             spanElement.style.display = 'inline-block';
           });
-        });
+        }
       });
 
-
-      removeButtons.forEach(function (button) {
-        console.log('Clicked');
-        button.addEventListener('click', function (event) {
+      // Event delegation for remove action
+      document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('remove-action')) {
           event.preventDefault();
           const parentTr = event.target.closest('tr');
           const classId = parentTr.dataset.id;
-
-          console.log(classId);
 
           // Show confirmation modal
           $('#confirmationModal').modal('show');
@@ -806,10 +806,26 @@
             // Hide the modal after action
             $('#confirmationModal').modal('hide');
           });
-        });
+        }
+      });
+
+      const addClassBtn = $('#addClassBtn');
+      const addClassForm = $('#addClassForm');
+
+      addClassBtn.click(function () {
+        if (addClassForm.is(':hidden')) {
+          // Show the add class form
+          addClassForm.slideDown();
+          addClassBtn.text('Hide Form'); // Change button text to 'Hide Form'
+        } else {
+          // Hide the add class form
+          addClassForm.slideUp();
+          addClassBtn.text('Add Class'); // Change button text back to 'Add class'
+        }
       });
 
     });
+
 
   </script>
 

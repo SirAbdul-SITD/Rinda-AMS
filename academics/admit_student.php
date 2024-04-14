@@ -288,14 +288,14 @@
                           <div class="form-group">
                             <label for="student_firstName">First Name *</label>
                             <input id="student_firstName" name="student_firstName" type="text"
-                              class="form-control requiredddd">
+                              class="form-control required">
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="student_lastName">Last Name *</label>
                             <input id="student_lastName" name="student_lastName" type="text"
-                              class="form-control requiredddd">
+                              class="form-control required">
                           </div>
                         </div>
                       </div>
@@ -305,7 +305,7 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="student_gender">Gender *</label>
-                            <select id="student_gender" name="student_gender" class="form-control requiredddd">
+                            <select id="student_gender" name="student_gender" class="form-control required">
                               <option value="">Select Gender</option>
                               <option value="Male">Male</option>
                               <option value="Female">Female</option>
@@ -315,7 +315,7 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="student_dob">Date of Birth *</label>
-                            <input id="student_dob" name="student_dob" type="date" class="form-control requiredddd">
+                            <input id="student_dob" name="student_dob" type="date" class="form-control required">
                           </div>
                         </div>
                       </div>
@@ -341,7 +341,7 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="student_religion">Religion *</label>
-                            <select id="student_religion" name="student_religion" class="form-control requiredddd">
+                            <select id="student_religion" name="student_religion" class="form-control required">
                               <option value="">Select Religion</option>
                               <option value="Muslim">Muslim</option>
                               <option value="Christian">Christian</option>
@@ -390,13 +390,13 @@
                           <div class="form-group">
                             <label for="student_address">Address *</label>
                             <input id="student_address" name="student_address" type="text" class="form-control"
-                              requiredddd>
+                              required>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="student_country">Country *</label>
-                            <select id="student_country" name="student_country" class="form-control requiredddd">
+                            <select id="student_country" name="student_country" class="form-control required">
                               <option value="Nigeria" selected>Nigerian</option>
                               <!-- <option value="other">Other</option> -->
                             </select>
@@ -409,7 +409,7 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="student_state">State *</label>
-                            <select id="student_state" name="student_state" class="form-control requiredddd">
+                            <select id="student_state" name="student_state" class="form-control required">
                               <option value="">Select State</option>
                               <option value="FCT">FCT</option>
                               <option value="Abia">Abia</option>
@@ -455,7 +455,7 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="student_city">City *</label>
-                            <select id="student_city" name="student_city" class="form-control requiredddd">
+                            <select id="student_city" name="student_city" class="form-control required">
                               <option value="">Select City</option>
                             </select>
                           </div>
@@ -728,13 +728,13 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="admission_no">Admission Number *</label>
-                            <input id="admission_no" name="admission_no" type="text" class="form-control" requiredddd>
+                            <input id="admission_no" name="admission_no" type="text" class="form-control" required>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="join_date">Admission Date *</label>
-                            <input id="join_date" name="join_date" type="date" class="form-control requiredddd">
+                            <input id="join_date" name="join_date" type="date" class="form-control required">
                           </div>
                         </div>
                       </div>
@@ -744,7 +744,7 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="session">Academic Year*</label>
-                            <select id="session" class="form-control select1" requiredddd name="session">
+                            <select id="session" class="form-control select1" required name="session">
                               <?php
                               $query = "SELECT *  FROM sessions";
                               $stmt = $pdo->prepare($query);
@@ -769,7 +769,7 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label for="term">Term *</label>
-                            <select id="term" class="form-control select1" requiredddd name="term">
+                            <select id="term" class="form-control select1" required name="term">
                               <option value="" selected disabled>Select Term</option>
                               <option value="1">First Term</option>
                               <option value="2">Second Term</option>
@@ -782,7 +782,7 @@
                         <div class="col-md-12">
                           <div class="form-group">
                             <label for="class">Class *</label>
-                            <select id="class" class="form-control select1" requiredddd name="class_id">
+                            <select id="class" class="form-control select1" required name="class_id">
                               <?php
                               $query = "SELECT c.*, s.section FROM classes c INNER JOIN sections s ON c.section_id = s.id  WHERE s.status = 1 AND c.status = 1 ORDER BY c.section_id ASC";
                               $stmt = $pdo->prepare($query);
@@ -826,13 +826,13 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="2ndJoin_date">Admission Date *</label>
-                              <input id="2ndJoin_date" name="2ndJoin_date" type="date" class="form-control requiredddd">
+                              <input id="2ndJoin_date" name="2ndJoin_date" type="date" class="form-control required">
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="2ndSession">Additional Academic Year*</label>
-                              <select id="2ndSession" class="form-control select1" requiredddd name="2ndSession">
+                              <select id="2ndSession" class="form-control select1" required name="2ndSession">
                                 <?php
                                 $query = "SELECT *  FROM sessions";
                                 $stmt = $pdo->prepare($query);
@@ -859,7 +859,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="2ndTerm">Term *</label>
-                              <select id="2ndTerm" class="form-control select1" requiredddd name="2ndTerm">
+                              <select id="2ndTerm" class="form-control select1" required name="2ndTerm">
                                 <option value="" selected disabled>Select Term</option>
                                 <option value="1">First Term</option>
                                 <option value="2">Second Term</option>
@@ -871,7 +871,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="2ndClass_id">Additional Class *</label>
-                              <select id="2ndClass_id" class="form-control select1" requiredddd name="2ndClass_id">
+                              <select id="2ndClass_id" class="form-control select1" required name="2ndClass_id">
                                 <?php
                                 $query = "SELECT c.*, s.section FROM classes c INNER JOIN sections s ON c.section_id = s.id  WHERE s.status = 1 AND c.status = 1 ORDER BY c.section_id ASC";
                                 $stmt = $pdo->prepare($query);
@@ -916,7 +916,7 @@
                           the rejection of your application or termination of enrollment if discovered at a later date.
                         </li>
                         <li>
-                          <strong>Application Fee:</strong> A non-refundable application fee may be requiredddd upon
+                          <strong>Application Fee:</strong> A non-refundable application fee may be required upon
                           submission of this application. Payment details will be provided upon completion of the form.
                         </li>
                         <li>
@@ -965,7 +965,7 @@
                         errors. Select "Finish" to proceed with adding a new student or "Previous" to review the input.
                       </p>
 
-                      <!-- <input id="acceptTerms" name="acceptTerms" type="checkbox" class="requiredddd"> <label
+                      <!-- <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label
                         for="acceptTerms">Information is accurate.</label> -->
                     </section>
 

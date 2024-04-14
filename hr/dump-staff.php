@@ -1,7 +1,7 @@
 <?php
 
 // Include your database connection file (e.g., settings.php)
-require('../settings.php');
+require('settings.php');
 
 // Check if form data is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -50,9 +50,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insert record if mobile number and email do not exist
         if (!$mobileNumberExists && !$emailExists) {
+
+             // Use email as password
+             $password = $email;
+
+             // Hash the password (optional, but recommended)
+             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
             // Prepare SQL statement to insert data into staffs table
-            $query = "INSERT INTO staffs (designation_id, employment_date, first_name, last_name, gender, dob, marital_status, email, mobile_number, emergency_contact, current_address, permanent_address, qualifications, experience, salary, contract_type, bank_name, account_name, account_number) 
-                  VALUES (:designation, :employmentDate, :firstName, :lastName, :gender, :dob, :maritalStatus, :email, :mobileNumber, :emergencyContact, :currentAddress, :permanentAddress, :qualifications, :experience, :salary, :contractType, :bankName, :accountName, :accountNumber)";
+            $query = "INSERT INTO staffs (designation_id, employment_date, first_name, last_name, gender, dob, marital_status, email, mobile_number, emergency_contact, current_address, permanent_address, qualifications, experience, salary, contract_type, bank_name, account_name, account_number, password) 
+                  VALUES (:designation, :employmentDate, :firstName, :lastName, :gender, :dob, :maritalStatus, :email, :mobileNumber, :emergencyContact, :currentAddress, :permanentAddress, :qualifications, :experience, :salary, :contractType, :bankName, :accountName, :accountNumber, :password)";
             $stmt = $pdo->prepare($query);
 
             // Bind parameters
@@ -75,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':bankName', $bankName);
             $stmt->bindParam(':accountName', $accountName);
             $stmt->bindParam(':accountNumber', $accountNumber);
+            $stmt->bindParam(':password', $hashedPassword);
 
             // Execute the statement
             $stmt->execute();

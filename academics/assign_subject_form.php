@@ -10,7 +10,6 @@ if (isset($_POST['teacher']) && isset($_POST['subject'])) {
     $subject = $_POST['subject'];
 
     $query = "SELECT * FROM `subjects` WHERE `id` = :subject AND `assigned` IS NULL";
-
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':subject', $subject, PDO::PARAM_INT);
     $stmt->execute();

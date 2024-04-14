@@ -2,14 +2,21 @@
 // // Start or resume the session
 session_start();
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+// Check if session variable is not set
+// if (!isset($_SESSION['user'])) {
+//   // Redirect to the login page
+//   header("Location: login.html");
+//   exit(); // Ensure that script execution stops after redirection
+// }
 
 // $servername = "localhost";
-// $username = "virasubc_virasub";
-// $password = "T.gxMx)md)UO{)D]Id";
-// $database = "virasubc_virasub";
+// $username = "stradafr_rindaams";
+// $password = "Np@XUaYcBMbp9nV";
+// $database = "stradafr_rindaams";
 
 
 $servername = "localhost";
@@ -29,7 +36,7 @@ try {
 $api_key = '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';
 $school_name = 'Rinda Academy';
 $school_address = '9022 Suspendisse Rd. High Wycombe 9022 Suspendisse Rd. High Wycombe';
-$school_email = 'finance@lms.rinda.com';
+$school_email = 'gha@stradafrica.com.ng';
 $_SESSION['user'] = '1';
 
 // SSS 3

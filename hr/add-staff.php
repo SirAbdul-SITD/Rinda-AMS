@@ -1,4 +1,4 @@
-<?php require('../settings.php'); ?>
+<?php require('settings.php'); ?>
 <!doctype html>
 <html lang="en">
 
@@ -345,8 +345,8 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                          <label for="email">Email</label>
-                          <input id="email" name="email" type="text" class="form-control email">
+                          <label for="email">Email *</label>
+                          <input id="email" name="email" type="text" class="form-control required email" required>
                         </div>
                       </div>
 
@@ -1636,9 +1636,11 @@
             success: function (response) {
               // Handle success response
               displayPopup(response.message, response.success);
-              setTimeout(function () {
+              if (response.success) {
+                setTimeout(function () {
                 location.reload();
               }, 1000);
+              }
             },
             error: function (xhr, status, error) {
               // Handle error

@@ -1,6 +1,6 @@
 <?php
 // Include your database connection file (e.g., settings.php)
-require('../settings.php'); ?>
+require('settings.php'); ?>
 <!doctype html>
 <html lang="en">
 

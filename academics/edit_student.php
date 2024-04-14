@@ -1704,11 +1704,11 @@
             success: function (response) {
               // Handle success response
               displayPopup(response.message, response.success);
-              console.log(response);
+              window.history.back();
             },
             error: function (xhr, status, error) {
               // Handle error
-              console.error(xhr.responseText);
+              // console.error(xhr.responseText);
             }
           });
         }
