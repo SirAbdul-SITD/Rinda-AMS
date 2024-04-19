@@ -1,7 +1,6 @@
 <?php
 require("settings.php");
 
-
 if (isset($_GET['subtopic'])) {
 
     $class = $_GET['class'];
@@ -23,9 +22,27 @@ if (isset($_GET['subtopic'])) {
         // Entry exists, extract content and return success
         $content = $contentRow['content'];
     } else {
-        // Entry doesn't exist, proceed with the API call
-        $userMessage = "Generate detailed content for this: " . $subtopic . " under this topic:" . $topic;
 
+      // Check if the entry already exists in the database
+      $stmt = $pdo->prepare("SELECT * FROM curriculum_plans WHERE class = :class AND subject = :subject AND topic = :topic AND subtopic = :subtopic AND plan IS NOT NULL");
+      $stmt->bindParam(':class', $class, PDO::PARAM_STR);
+      $stmt->bindParam(':subject', $subject, PDO::PARAM_STR);
+      $stmt->bindParam(':topic', $topic, PDO::PARAM_STR);
+      $stmt->bindParam(':subtopic', $subtopic, PDO::PARAM_STR);
+      $stmt->execute();
+  
+      $planRow = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+      if ($planRow) {
+          // Entry exists, extract plan and return success
+          $plan = $planRow['plan'];
+              // Entry doesn't exist, proceed with the API call
+              $userMessage = "Generate detailed lesson content for this plan:" . $plan .". To teach" . $class ." students";
+          } else {
+            // Entry doesn't exist, proceed with the API call
+              $userMessage = "Generate detailed lesson content for this subtopic: " . $subtopic . ". Under  this topic: " . $subtopic . ". To teach" . $class ." students";
+          }
+    
         $data = json_encode([
             'model' => 'gpt-3.5-turbo',
             'messages' => [

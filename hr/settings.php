@@ -7,11 +7,14 @@ session_start();
 // error_reporting(E_ALL);
 
 
-if (!isset($_SESSION['user'])) {
-  // Redirect to the login page
-  header("Location: login.html");
-  exit(); 
+
+// Check if user ID and email session variables are not set
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['email'])) {
+    // Redirect to login page
+    header("Location: login.html");
+    exit();
 }
+
 
 
 

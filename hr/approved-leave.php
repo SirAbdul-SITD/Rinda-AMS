@@ -1,3 +1,4 @@
+<?php require('settings.php'); ?>
 <!doctype html>
 <html lang="en">
 
@@ -11,9 +12,7 @@
   <!-- Simple bar CSS -->
   <link rel="stylesheet" href="../css/simplebar.css">
   <!-- Fonts CSS -->
-  <link
-    href="overpass-font.css"
-    rel="stylesheet">
+  <link href="overpass-font.css" rel="stylesheet">
   <!-- Icons CSS -->
   <link rel="stylesheet" href="../css/feather.css">
   <link rel="stylesheet" href="../css/dataTables.bootstrap4.css">
@@ -22,9 +21,53 @@
   <!-- App CSS -->
   <link rel="stylesheet" href="../css/app-light.css" id="lightTheme">
   <link rel="stylesheet" href="../css/app-dark.css" id="darkTheme" disabled>
-<style>
-       .card {
+  <style>
+    .card {
       border-radius: 8px;
+    }
+
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      background-color: rgba(0, 10, 5, 0.8);
+      /* Background color with opacity */
+      color: #fff;
+    }
+
+    .popup.success {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+
+    .popup.error {
+      background-color: #F44336;
+      color: white;
+    }
+
+    .popup i {
+      margin-right: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .desktop {
+        display: none;
+        min-width: 720px;
+      }
+    }
+
+
+    @media (min-width: 768px) {
+      .mobile {
+        display: none;
+        min-width: 720px;
+      }
     }
   </style>
 </head>
@@ -119,7 +162,7 @@
               </i>
             </a>
           </li>
-          
+
 
 
 
@@ -198,160 +241,106 @@
     <main role="main" class="main-content">
       <div class="container-fluid">
         <div class="row justify-content-center">
-          <div class="col-12">
-            <h2 class="mb-2 page-title">Approved Leave Requests</h2>
-            
-            <div class="row my-4">
-              <!-- Small table -->
-              <div class="col-md-12">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <!-- table -->
-                    <table class="table datatables" id="dataTable-1">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Name</th>
-                          <th>Category</th>
-                          <th>From</th>
-                          <th>To</th>
-                          <th>Apply Date</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            1
-                          </td>
-                          <td>Ahmad Isah</td>
-                          <td>Sick Leave</td>
-                          <td>06-01-2024</td>
-                          <td>11-01-2024</td>
-                          <td>04-01-2024</td>
-                          <td>3 Days Remaining</td>
-                          <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="text-muted sr-only">Action</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                              <a class="dropdown-item" href="#">Extend</a>
-                              <a class="dropdown-item" href="#">Terminate</a>
-                              <a class="dropdown-item" href="#">Remove</a>
-                            </div>
-                          </td>
-                        </tr>
-                        <!-- Row 2 -->
-                        <tr>
-                          <td>2</td>
-                          <td>Fatima Ali</td>
-                          <td>Study Leave</td>
-                          <td>10-02-2024</td>
-                          <td>15-02-2024</td>
-                          <td>08-02-2024</td>
-                          <td>2 Days Remaining</td>
-                          <td>
-                            <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="text-muted sr-only">Action</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                              <a class="dropdown-item" href="#">Extend</a>
-                              <a class="dropdown-item" href="#">Terminate</a>
-                              <a class="dropdown-item" href="#">Remove</a>
-                            </div>
-                          </td>
-                        </tr>
 
-                        <!-- Row 3 -->
-                        <tr>
-                          <td>3</td>
-                          <td>Ali Khan</td>
-                          <td>Maternity Leave</td>
-                          <td>20-02-2024</td>
-                          <td>20-03-2024</td>
-                          <td>15-02-2024</td>
-                          <td>Approved</td>
-                          <td>
-                            <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="text-muted sr-only">Action</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                              <a class="dropdown-item" href="#">Extend</a>
-                              <a class="dropdown-item" href="#">Terminate</a>
-                              <a class="dropdown-item" href="#">Remove</a>
-                            </div>
-                          </td>
-                        </tr>
+          <?php
+          // Execute SQL query
+          $sql = "SELECT 
+                la.id AS id,
+                CONCAT(s.first_name, ' ', s.last_name) AS name,
+                lc.category AS category,
+                la.start_date AS start_date,
+                DATE_ADD(la.start_date, INTERVAL lc.duration_in_days DAY) AS end_date,
+                la.create_datetime AS apply_date,
+                CASE
+                    WHEN la.status = 'Terminated' THEN 'Terminated'
+                    WHEN NOW() < la.start_date THEN 'Approved'
+                    WHEN NOW() BETWEEN la.start_date AND DATE_ADD(la.start_date, INTERVAL lc.duration_in_days DAY) THEN CONCAT(DATEDIFF(DATE_ADD(la.start_date, INTERVAL lc.duration_in_days DAY), NOW()), ' Days Remaining')
+                    ELSE 'Ended'
+                END AS status
+            FROM
+                leave_applications AS la
+                    INNER JOIN
+                staffs AS s ON la.staff_id = s.id
+                    INNER JOIN
+                leave_categories AS lc ON la.category_id = lc.id
+            WHERE
+                la.status IN ('Approved', 'Terminated');
+            ";
 
-                        <!-- Row 4 -->
-                        <tr>
-                          <td>4</td>
-                          <td>Amirah Hassan</td>
-                          <td>Annual Leave</td>
-                          <td>05-03-2024</td>
-                          <td>20-03-2024</td>
-                          <td>01-03-2024</td>
-                          <td>2 Days Remaining</td>
-                          <td>
-                            <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="text-muted sr-only">Action</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                              <a class="dropdown-item" href="#">Extend</a>
-                              <a class="dropdown-item" href="#">Terminate</a>
-                              <a class="dropdown-item" href="#">Remove</a>
-                            </div>
-                          </td>
-                        </tr>
+          $stmt = $pdo->query($sql);
 
-                        <!-- Row 5 -->
-                        <tr>
-                          <td>5</td>
-                          <td>Khalid Ahmed</td>
-                          <td>Personal Leave</td>
-                          <td>10-03-2024</td>
-                          <td>12-03-2024</td>
-                          <td>08-03-2024</td>
-                          <td>Approved</td>
-                          <td>
-                            <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="text-muted sr-only">Action</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                              <a class="dropdown-item" href="#">Extend</a>
-                              <a class="dropdown-item" href="#">Terminate</a>
-                              <a class="dropdown-item" href="#">Remove</a>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <!-- Row 6 -->
-                        <tr>
-                          <td>6</td>
-                          <td>Nadia Farooq</td>
-                          <td>Training Leave</td>
-                          <td>15-03-2024</td>
-                          <td>20-03-2024</td>
-                          <td>12-03-2024</td>
-                          <td>Approved</td>
-                          <td>
-                            <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="text-muted sr-only">Action</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                              <a class="dropdown-item" href="#">Extend</a>
-                              <a class="dropdown-item" href="#">Terminate</a>
-                              <a class="dropdown-item" href="#">Remove</a>
-                            </div>
-                          </td>
-                        </tr>
-
+          // Check if query was successful
+          if ($stmt->rowCount() > 0) {
+            ?>
+            <div class="col-12">
+              <h2 class="mb-2 page-title">Approved Leave Requests</h2>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Apply Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php
+                          $i = 1;
+                          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            ?>
+                            <tr data-id="<?= $row['id']; ?>">
+                              <td>
+                                <?php echo $i++; ?>
+                              </td>
+                              <td>
+                                <?php echo $row['name']; ?>
+                              </td>
+                              <td>
+                                <?php echo $row['category']; ?>
+                              </td>
+                              <td>
+                                <?php echo $row['start_date']; ?>
+                              </td>
+                              <td>
+                                <?php echo $row['end_date']; ?>
+                              </td>
+                              <td>
+                                <?php echo $row['apply_date']; ?>
+                              </td>
+                              <td class="status-cell" <?php if ($row['status'] == "Terminated") { ?> style="color: red" <?php } elseif ($row['status'] == "Approved") { ?> style="color: green" <?php } ?>>
+                                <?php echo $row['status']; ?>
+                              </td>
+                              <td>
+                                <div class="btn-group">
+                                  <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="text-muted sr-only">Action</span>
+                                  </button>
+                                  <div class="dropdown-menu dropdown-menu-right">
+                                    <!-- <a class="dropdown-item extend-action" href="#">Extend</a> -->
+                                    <?php if ($row['status'] == "Terminated") { ?>
+                                      <a class="dropdown-item resume-action" href="#">Resume</a>
+                                    <?php } else { ?>
+                                      <a class="dropdown-item terminate-action" href="#">Terminate</a>
+                                    <?php } ?>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <?php
+                          }
+          }
+          ?>
                       </tbody>
                     </table>
                   </div>
@@ -359,8 +348,36 @@
               </div> <!-- simple table -->
             </div> <!-- end section -->
           </div> <!-- .col-12 -->
+
+
+
         </div> <!-- .row -->
       </div> <!-- .container-fluid -->
+
+
+      <!-- terminateConfirmModal -->
+      <div class="modal fade" id="terminateConfirmationModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to terminate this leave?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger confirm-termination">Terminate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
@@ -429,81 +446,81 @@
           </div>
         </div>
       </div>
-      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-          aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Dashboard</p>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="../academics/" target="_blank" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Academics</p>
+                  </a>
+                </div>
               </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Dashboard</p>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="../academics/" target="_blank" style="text-decoration: none;" class="text-white">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Academics</p>
-                    </a>
-                  </div>
+                  <p>E-Learning</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-trello fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>E-Learning</p>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-mail fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Messages</p>
-                  </div>
+                  <p>Messages</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-book fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Library</p>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-book fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="#" style="text-decoration: none;" class="text-success">
-                      <div class="squircle bg-success justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>HR</p>
-                    </a>
-                  </div>
+                  <p>Library</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;" class="text-success">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Assessments</p>
+                    <p>HR</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Settings</p>
+                  <p>Assessments</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
                   </div>
+                  <p>Settings</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </main> <!-- main -->
   </div> <!-- .wrapper -->
   <script src="../js/jquery.min.js"></script>
@@ -517,6 +534,125 @@
   <script src="../js/config.js"></script>
   <script src='../js/jquery.dataTables.min.js'></script>
   <script src='../js/dataTables.bootstrap4.min.js'></script>
+
+  <script>
+    //Function to display a popup message
+    function displayPopup(message, success) {
+      var popup = document.createElement('div');
+      popup.className = 'popup ' + (success ? 'success' : 'error');
+
+      var iconClass = success ? 'fa fa-check-circle' : 'fa fa-times-circle';
+      var icon = document.createElement('i');
+      icon.className = iconClass;
+      popup.appendChild(icon);
+
+      var text = document.createElement('span');
+      text.textContent = message;
+      popup.appendChild(text);
+
+      document.body.appendChild(popup);
+
+      setTimeout(function () {
+        popup.remove();
+      }, 5000);
+    }
+
+
+
+    // Event delegation for actions
+    document.body.addEventListener('click', function (event) {
+      if (event.target.classList.contains('resume-action')) {
+        event.preventDefault();
+        const parentTr = event.target.closest('tr');
+        const Id = parentTr.dataset.id;
+        const status = 'Approved';
+
+        // Send AJAX request to approve the request
+        $.ajax({
+          type: 'POST',
+          url: 'change-request-status.php',
+          data: { id: Id, status: status },
+          dataType: 'json',
+          success: function (response) {
+            if (response.success) {
+              // Remove the row from the table
+              parentTr.querySelector('.status-cell').style.color = 'green';
+              parentTr.querySelector('.status-cell').innerText = status;
+              displayPopup(response.message, true);
+            } else {
+              displayPopup(response.message, false);
+            }
+          },
+          error: function (error, xhr) {
+            displayPopup('Error occurred during request. Contact Admin', false);
+          },
+        });
+      } else if (event.target.classList.contains('terminate-action')) {
+        event.preventDefault();
+        const parentTr = event.target.closest('tr');
+        const Id = parentTr.dataset.id;
+        const status = 'Terminated';
+
+        // Show confirmation modal
+        $('#terminateConfirmationModal').modal('show');
+
+        // Add click event listener to the confirmation button
+        $('#terminateConfirmationModal').one('click', '.confirm-termination', function () {
+          // Send AJAX request to reject the request
+          $.ajax({
+            type: 'POST',
+            url: 'change-request-status.php',
+            data: { id: Id, status: status },
+            dataType: 'json',
+            success: function (response) {
+              if (response.success) {
+
+                parentTr.querySelector('.status-cell').style.color = 'red';
+                parentTr.querySelector('.status-cell').innerText = status;
+                displayPopup(response.message, true);
+              } else {
+                displayPopup(response.message, false);
+              }
+            },
+            error: function (error, xhr) {
+              displayPopup('Error occurred during request. Contact Admin', false);
+            },
+            complete: function () {
+              // Hide the modal after action
+              $('#terminateConfirmationModal').modal('hide');
+            },
+          });
+        });
+      } else if (event.target.classList.contains('view-reason')) {
+        event.preventDefault();
+        const parentTr = event.target.closest('tr');
+        const Id = parentTr.dataset.id;
+
+        // Send AJAX request to view the reason
+        $.ajax({
+          type: 'POST',
+          url: 'request_reason.php',
+          data: { id: Id },
+          dataType: 'json',
+          success: function (response) {
+            if (response.success) {
+              $('#request-reason').text(response.message.explanatory_note); // Accessing explanatory_note property
+              $('#requestReasonModal').modal('show');
+            } else {
+              displayPopup(response.message, false);
+            }
+          },
+          error: function (error, xhr) {
+            displayPopup('Error occurred during request. Contact Admin', false);
+          },
+        });
+      }
+    });
+
+  </script>
+
+
+
   <script>
     $('#dataTable-1').DataTable(
       {

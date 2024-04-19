@@ -12,15 +12,15 @@ try {
 
     $type = $_POST['type'];
     $explanatory_note = $_POST['exp'];
-    $begin = $_POST['begin'];
+    $start = $_POST['begin'];
 
-    
+    $begin =  date($start);
 
     // Add the new designation
     $insertQuery = "INSERT INTO `leave_applications` (`staff_id`, `category_id`, `start_date`, `explanatory_note`) VALUES (:user, :type, :begin, :note)";
     $insertStmt = $pdo->prepare($insertQuery);
     $insertStmt->bindParam(':type', $type, PDO::PARAM_STR);
-    $insertStmt->bindParam(':begin', $begin, PDO::PARAM_INT);
+    $insertStmt->bindParam(':begin', $begin, PDO::PARAM_STR);
     $insertStmt->bindParam(':note', $explanatory_note, PDO::PARAM_STR);
     $insertStmt->bindParam(':user', $user, PDO::PARAM_INT);
     $insertStmt->execute();

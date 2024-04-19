@@ -483,7 +483,7 @@
                     <p>Library</p>
                   </div>
                   <div class="col-6 text-center">
-                    <a href="../hr/" style="text-decoration: none;" class="text-white">
+                    <a href="../hr/" style="text-decoration: none;">
                       <div class="squircle bg-primary justify-content-center">
                         <i class="fe fe-users fe-32 align-self-center text-white"></i>
                       </div>

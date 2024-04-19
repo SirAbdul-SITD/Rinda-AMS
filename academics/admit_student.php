@@ -14,8 +14,6 @@
   <!-- Fonts CSS -->
   <link href="../overpass-font.css" rel="stylesheet">
   <!-- Icons CSS -->
-  <!-- Include Dropzone.js library -->
-
   <link rel="stylesheet" href="../css/feather.css">
   <link rel="stylesheet" href="../css/select2.css">
   <link rel="stylesheet" href="../css/dropzone.css">
@@ -276,7 +274,7 @@
                 <strong>Admission Form</strong>
               </div>
               <div class="card-body">
-                <form id="example-form" action="admit.php" method="POST">
+                <form id="example-form" action="upload.php" method="POST">
                   <div id="wizard">
 
 
@@ -472,18 +470,53 @@
                         </div>
                       </div>
 
+
                       <!-- Photo Upload -->
-                      <div class="row">
+                      <!-- <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
                             <label for="student_photo">Photo</label>
-                            <div class="custom-file mb-3">
+                            <div id="my-dropzone" class="dropzone">
+
+                              <div class="dz-message needsclick">
+                                <div class="circle circle-lg bg-primary">
+                                  <i class="fe fe-upload fe-24 text-white"></i>
+                                </div>
+                                <h5 class="text-muted mt-4">Drop files here or click to upload</h5>
+                              </div>
+
+                              <div class="d-none" id="uploadPreviewTemplate">
+                                <div class="card mt-1 mb-0 shadow-none border">
+                                  <div class="p-2">
+                                    <div class="row align-items-center">
+                                      <div class="col-auto" style="border-radius: 10%;">
+                                        <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
+                                      </div>
+                                      <div class="col pl-0">
+                                        <a href="javascript:void(0);" class="text-muted font-weight-bold"
+                                          data-dz-name></a>
+                                        <p class="mb-0" data-dz-size></p>
+                                      </div>
+                                      <div class="col-auto">
+                                     
+                                       Button 
+                                        <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                          <i class="dripicons-cross"></i>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                           <div class="custom-file mb-3">
                               <label class="custom-file-label" for="student_photo">Choose Photo...</label>
                               <input type="file" class="custom-file-input" id="student_photo" name="student_photo">
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
+
 
                       <!-- Help Text -->
                       <div class="row">
@@ -547,175 +580,175 @@
                         exit(json_encode($response));
                       }
 
-                      if (count($parentsData) == 0 ){
+                      if (count($parentsData) == 0) {
 
-                          echo '<div class="text-center align-self-center"><h5>No Parents Added Yet!</h5></div>';
-                          echo '<a href="parents.php" style="decoration: none"> <button type="button" class="btn mb-2 btn-primary btn-block">Add A Parent</button></a>';
+                        echo '<div class="text-center align-self-center"><h5>No Parents Added Yet!</h5></div>';
+                        echo '<a href="parents.php" style="decoration: none"> <button type="button" class="btn mb-2 btn-primary btn-block">Add A Parent</button></a>';
 
-                        } else {
-                          
+                      } else {
+
                         ?>
-                        
-                      <div id="fatherInfo" class="parent-info" style="display: block;">
-                        <h5>Select a Father</h5>
-                        <div class="col-md-12 mb-4">
-                          <div class="card-body">
-                            <div class="list-group list-group-flush my-n3">
-                              <?php foreach ($parentsData as $parent): ?>
-                                <div class="list-group-item">
-                                  <div class="row">
-                                    <div class="col-auto">
-                                      <div class="avatar avatar-sm mt-2">
-                                        <!-- Placeholder image for avatar -->
-                                        <img src="./assets/avatars/default-avatar.jpg" alt="Avatar"
-                                          class="avatar-img rounded-circle">
+
+                        <div id="fatherInfo" class="parent-info" style="display: block;">
+                          <h5>Select a Father</h5>
+                          <div class="col-md-12 mb-4">
+                            <div class="card-body">
+                              <div class="list-group list-group-flush my-n3">
+                                <?php foreach ($parentsData as $parent): ?>
+                                  <div class="list-group-item">
+                                    <div class="row">
+                                      <div class="col-auto">
+                                        <div class="avatar avatar-sm mt-2">
+                                          <!-- Placeholder image for avatar -->
+                                          <img src="./assets/avatars/default-avatar.jpg" alt="Avatar"
+                                            class="avatar-img rounded-circle">
+                                        </div>
                                       </div>
-                                    </div>
-                                    
-                                    <div class="col">
-                                      <small><strong>
-                                          <?= $parent['lastName'] . ', ' . $parent['firstName'] ?>
-                                        </strong></small>
-                                      <div class="my-0 text-muted small">Occupation:
-                                        <?= $parent['occupation'] ?>
+
+                                      <div class="col">
+                                        <small><strong>
+                                            <?= $parent['lastName'] . ', ' . $parent['firstName'] ?>
+                                          </strong></small>
+                                        <div class="my-0 text-muted small">Occupation:
+                                          <?= $parent['occupation'] ?>
+                                        </div>
+                                        <?php
+                                        // Fetch the number of dependants under this parent from the database
+                                        try {
+                                          $stmtDependants = $pdo->prepare("SELECT COUNT(*) FROM parent_student WHERE parent_id = ?");
+                                          $stmtDependants->execute([$parent['id']]);
+                                          $numDependants = $stmtDependants->fetchColumn();
+                                        } catch (PDOException $e) {
+                                          $numDependants = 'Error fetching data';
+                                        }
+                                        ?>
+                                        <small class="badge badge-light text-muted">
+                                          <?= $numDependants ?> dependant
+                                          <?= $numDependants != 1 ? 's' : '' ?> under this parent currently
+                                        </small>
                                       </div>
-                                      <?php
-                                      // Fetch the number of dependants under this parent from the database
-                                      try {
-                                        $stmtDependants = $pdo->prepare("SELECT COUNT(*) FROM parent_student WHERE parent_id = ?");
-                                        $stmtDependants->execute([$parent['id']]);
-                                        $numDependants = $stmtDependants->fetchColumn();
-                                      } catch (PDOException $e) {
-                                        $numDependants = 'Error fetching data';
-                                      }
-                                      ?>
-                                      <small class="badge badge-light text-muted">
-                                        <?= $numDependants ?> dependant
-                                        <?= $numDependants != 1 ? 's' : '' ?> under this parent currently
-                                      </small>
-                                    </div>
-                                    <div class="col-auto">
-                                      <div class="custom-control custom-radio">
-                                        <input type="radio" id="father<?= $parent['id'] ?>" name="fatherId"
-                                          value="<?= $parent['id'] ?>" class="custom-control-input" required>
-                                        <label class="custom-control-label" for="father<?= $parent['id'] ?>"></label>
+                                      <div class="col-auto">
+                                        <div class="custom-control custom-radio">
+                                          <input type="radio" id="father<?= $parent['id'] ?>" name="fatherId"
+                                            value="<?= $parent['id'] ?>" class="custom-control-input" required>
+                                          <label class="custom-control-label" for="father<?= $parent['id'] ?>"></label>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              <?php  endforeach; ?>
-                            </div> <!-- / .list-group -->
-                          </div> <!-- / .card-body -->
-                        </div> <!-- / .col-md-3 -->
-                      </div>
+                                <?php endforeach; ?>
+                              </div> <!-- / .list-group -->
+                            </div> <!-- / .card-body -->
+                          </div> <!-- / .col-md-3 -->
+                        </div>
 
-                      <div id="motherInfo" class="parent-info" style="display: none;">
-                        <h5>Select a Mother</h5>
-                        <div class="col-md-12 mb-4">
-                          <div class="card-body">
-                            <div class="list-group list-group-flush my-n3">
-                              <?php foreach ($parentsData as $parent): ?>
-                                <div class="list-group-item">
-                                  <div class="row">
-                                    <div class="col-auto">
-                                      <div class="avatar avatar-sm mt-2">
-                                        <!-- Placeholder image for avatar -->
-                                        <img src="./assets/avatars/default-avatar.jpg" alt="Avatar"
-                                          class="avatar-img rounded-circle">
+                        <div id="motherInfo" class="parent-info" style="display: none;">
+                          <h5>Select a Mother</h5>
+                          <div class="col-md-12 mb-4">
+                            <div class="card-body">
+                              <div class="list-group list-group-flush my-n3">
+                                <?php foreach ($parentsData as $parent): ?>
+                                  <div class="list-group-item">
+                                    <div class="row">
+                                      <div class="col-auto">
+                                        <div class="avatar avatar-sm mt-2">
+                                          <!-- Placeholder image for avatar -->
+                                          <img src="./assets/avatars/default-avatar.jpg" alt="Avatar"
+                                            class="avatar-img rounded-circle">
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <small><strong>
-                                          <?= $parent['lastName'] . ', ' . $parent['firstName'] ?>
-                                        </strong></small>
-                                      <div class="my-0 text-muted small">Occupation:
-                                        <?= $parent['occupation'] ?>
+                                      <div class="col">
+                                        <small><strong>
+                                            <?= $parent['lastName'] . ', ' . $parent['firstName'] ?>
+                                          </strong></small>
+                                        <div class="my-0 text-muted small">Occupation:
+                                          <?= $parent['occupation'] ?>
+                                        </div>
+                                        <?php
+                                        // Fetch the number of dependants under this parent from the database
+                                        try {
+                                          $stmtDependants = $pdo->prepare("SELECT COUNT(*) FROM parent_student WHERE parent_id = ?");
+                                          $stmtDependants->execute([$parent['id']]);
+                                          $numDependants = $stmtDependants->fetchColumn();
+                                        } catch (PDOException $e) {
+                                          $numDependants = 'Error fetching data';
+                                        }
+                                        ?>
+                                        <small class="badge badge-light text-muted">
+                                          <?= $numDependants ?> dependant
+                                          <?= $numDependants != 1 ? 's' : '' ?> under this parent currently
+                                        </small>
                                       </div>
-                                      <?php
-                                      // Fetch the number of dependants under this parent from the database
-                                      try {
-                                        $stmtDependants = $pdo->prepare("SELECT COUNT(*) FROM parent_student WHERE parent_id = ?");
-                                        $stmtDependants->execute([$parent['id']]);
-                                        $numDependants = $stmtDependants->fetchColumn();
-                                      } catch (PDOException $e) {
-                                        $numDependants = 'Error fetching data';
-                                      }
-                                      ?>
-                                      <small class="badge badge-light text-muted">
-                                        <?= $numDependants ?> dependant
-                                        <?= $numDependants != 1 ? 's' : '' ?> under this parent currently
-                                      </small>
-                                    </div>
-                                    <div class="col-auto">
-                                      <div class="custom-control custom-radio">
-                                        <input type="radio" id="mother<?= $parent['id'] ?>" name="motherId"
-                                          value="<?= $parent['id'] ?>" class="custom-control-input" required>
-                                        <label class="custom-control-label" for="mother<?= $parent['id'] ?>"></label>
+                                      <div class="col-auto">
+                                        <div class="custom-control custom-radio">
+                                          <input type="radio" id="mother<?= $parent['id'] ?>" name="motherId"
+                                            value="<?= $parent['id'] ?>" class="custom-control-input" required>
+                                          <label class="custom-control-label" for="mother<?= $parent['id'] ?>"></label>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              <?php endforeach; ?>
-                            </div> <!-- / .list-group -->
-                          </div> <!-- / .card-body -->
-                        </div> <!-- / .col-md-3 -->
-                      </div>
+                                <?php endforeach; ?>
+                              </div> <!-- / .list-group -->
+                            </div> <!-- / .card-body -->
+                          </div> <!-- / .col-md-3 -->
+                        </div>
 
 
-                      <div id="guardianInfo" class="parent-info" style="display: none;">
-                        <h5>Select a Guardian</h5>
-                        <div class="col-md-12 mb-4">
-                          <div class="card-body">
-                            <div class="list-group list-group-flush my-n3">
-                              <?php foreach ($parentsData as $parent): ?>
-                                <div class="list-group-item">
-                                  <div class="row">
-                                    <div class="col-auto">
-                                      <div class="avatar avatar-sm mt-2">
-                                        <!-- Placeholder image for avatar -->
-                                        <img src="./assets/avatars/default-avatar.jpg" alt="Avatar"
-                                          class="avatar-img rounded-circle">
+                        <div id="guardianInfo" class="parent-info" style="display: none;">
+                          <h5>Select a Guardian</h5>
+                          <div class="col-md-12 mb-4">
+                            <div class="card-body">
+                              <div class="list-group list-group-flush my-n3">
+                                <?php foreach ($parentsData as $parent): ?>
+                                  <div class="list-group-item">
+                                    <div class="row">
+                                      <div class="col-auto">
+                                        <div class="avatar avatar-sm mt-2">
+                                          <!-- Placeholder image for avatar -->
+                                          <img src="./assets/avatars/default-avatar.jpg" alt="Avatar"
+                                            class="avatar-img rounded-circle">
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <small><strong>
-                                          <?= $parent['lastName'] . ', ' . $parent['firstName'] ?>
-                                        </strong></small>
-                                      <div class="my-0 text-muted small">Occupation:
-                                        <?= $parent['occupation'] ?>
+                                      <div class="col">
+                                        <small><strong>
+                                            <?= $parent['lastName'] . ', ' . $parent['firstName'] ?>
+                                          </strong></small>
+                                        <div class="my-0 text-muted small">Occupation:
+                                          <?= $parent['occupation'] ?>
+                                        </div>
+                                        <?php
+                                        // Fetch the number of dependants under this parent from the database
+                                        try {
+                                          $stmtDependants = $pdo->prepare("SELECT COUNT(*) FROM parent_student WHERE parent_id = ?");
+                                          $stmtDependants->execute([$parent['id']]);
+                                          $numDependants = $stmtDependants->fetchColumn();
+                                        } catch (PDOException $e) {
+                                          $numDependants = 'Error fetching data';
+                                        }
+                                        ?>
+                                        <small class="badge badge-light text-muted">
+                                          <?= $numDependants ?> dependant
+                                          <?= $numDependants != 1 ? 's' : '' ?> under this parent currently
+                                        </small>
                                       </div>
-                                      <?php
-                                      // Fetch the number of dependants under this parent from the database
-                                      try {
-                                        $stmtDependants = $pdo->prepare("SELECT COUNT(*) FROM parent_student WHERE parent_id = ?");
-                                        $stmtDependants->execute([$parent['id']]);
-                                        $numDependants = $stmtDependants->fetchColumn();
-                                      } catch (PDOException $e) {
-                                        $numDependants = 'Error fetching data';
-                                      }
-                                      ?>
-                                      <small class="badge badge-light text-muted">
-                                        <?= $numDependants ?> dependant
-                                        <?= $numDependants != 1 ? 's' : '' ?> under this parent currently
-                                      </small>
-                                    </div>
-                                    <div class="col-auto">
-                                      <div class="custom-control custom-radio">
-                                        <input type="radio" id="guardian<?= $parent['id'] ?>" name="guardianId"
-                                          value="<?= $parent['id'] ?>" class="custom-control-input" required>
-                                        <label class="custom-control-label" for="guardian<?= $parent['id'] ?>"></label>
+                                      <div class="col-auto">
+                                        <div class="custom-control custom-radio">
+                                          <input type="radio" id="guardian<?= $parent['id'] ?>" name="guardianId"
+                                            value="<?= $parent['id'] ?>" class="custom-control-input" required>
+                                          <label class="custom-control-label" for="guardian<?= $parent['id'] ?>"></label>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              <?php endforeach; ?>
-                            </div> <!-- / .list-group -->
-                          </div> <!-- / .card-body -->
-                        </div> <!-- / .col-md-3 -->
-                      </div>
+                                <?php endforeach; ?>
+                              </div> <!-- / .list-group -->
+                            </div> <!-- / .card-body -->
+                          </div> <!-- / .col-md-3 -->
+                        </div>
 
 
-                      <div class="help-text text-muted">(*) Mandatory</div>
+                        <div class="help-text text-muted">(*) Mandatory</div>
                       <?php } ?>
                     </section>
 
@@ -1047,82 +1080,82 @@
           </div>
         </div>
       </div>
-     <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-          aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Dashboard</p>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;" class="text-success">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Academics</p>
+                  </a>
+                </div>
               </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Dashboard</p>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="#" style="text-decoration: none;" class="text-success">
-                      <div class="squircle bg-success justify-content-center">
-                        <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Academics</p>
-                    </a>
-                  </div>
+                  <p>E-Learning</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-trello fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>E-Learning</p>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-mail fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Messages</p>
-                  </div>
+                  <p>Messages</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-book fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Library</p>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-book fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <a href="../hr/" style="text-decoration: none;" class="text-white">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>HR</p>
-                    </a>
-                  </div>
+                  <p>Library</p>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
+                <div class="col-6 text-center">
+                  <a href="../hr/" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
+                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Assessments</p>
+                    <p>HR</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
                   </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Settings</p>
+                  <p>Assessments</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
                   </div>
+                  <p>Settings</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-     </main> <!-- main -->
+      </div>
+    </main> <!-- main -->
   </div> <!-- .wrapper -->
   <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>
@@ -1156,6 +1189,7 @@
   <script src='../js/dropzone.min.js'></script>
   <script src='../js/uppy.min.js'></script>
   <script src='../js/quill.min.js'></script>
+
   <script>
     function toggleParentInfo(type) {
       var parentInfo = document.getElementById(type + 'Info');
@@ -2083,6 +2117,19 @@
       populateCities(document.getElementById("student_state"), document.getElementById("student_city"));
     });
   </script>
+  <!-- <script>
+    Dropzone.autoDiscover = false; // Disable auto initialization
+
+    $(document).ready(function () {
+      // Initialize Dropzone on the specific element
+      $("#my-dropzone").dropzone({
+        url: "upload.php",
+        paramName: "file", // Name of the file parameter to be sent to the server
+        maxFilesize: 10, // Maximum file size in MB
+        // Add more Dropzone options as needed
+      });
+    });
+  </script> -->
 </body>
 
 </html>

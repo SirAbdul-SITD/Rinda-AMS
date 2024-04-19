@@ -317,7 +317,7 @@
                               <td>
                                 <p class="mb-0 text-muted">
                                   <strong class="mb-0 text-muted category-salary">
-                                    <?= $category['days'] ?>
+                                    <?= $category['duration_in_days'] ?>
                                   </strong>
                                 </p>
                               </td>
@@ -468,7 +468,7 @@
                     <p>Dashboard</p>
                   </div>
                   <div class="col-6 text-center">
-                    <a href="../academics/" target="_blank" style="text-decoration: none;" class="text-white">
+                    <a href="../academics/" target="_blank" style="text-decoration: none;">
                       <div class="squircle bg-primary justify-content-center">
                         <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
                       </div>

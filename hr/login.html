@@ -167,10 +167,6 @@
           success: function (response) {
             if (response.success) {
               displayPopup(response.message, true); 
-              // Set session ID and email
-              sessionStorage.setItem('sessionId', response.sessionId);
-              sessionStorage.setItem('email', email);
-
               
               // Redirect to index.php
               window.location.href = 'index.php';
