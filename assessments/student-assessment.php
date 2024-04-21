@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
-  <title>Types - Assessments | Rinda AMS</title>
+  <title>Process - Assessments | Rinda AMS</title>
   <!-- Simple bar CSS -->
   <link rel="stylesheet" href="../css/simplebar.css">
   <!-- Fonts CSS -->
@@ -137,105 +137,144 @@
             </svg>
           </a>
         </div>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
+          <li class="nav-item dropdown">
+            <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+              <i class="fe fe-home fe-16"></i>
+              <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="dashboard">
+              <li class="nav-item active">
+                <a class="nav-link pl-3" href="./index.html"><span class="ml-1 item-text">Default</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="./dashboard-analytics.html"><span
+                    class="ml-1 item-text">Analytics</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="./dashboard-sales.html"><span
+                    class="ml-1 item-text">E-commerce</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="./dashboard-saas.html"><span class="ml-1 item-text">Saas
+                    Dashboard</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="./dashboard-system.html"><span class="ml-1 item-text">Systems</span></a>
+              </li>
+            </ul>
+          </li>
+        </ul>
         <p class="text-muted nav-heading mt-4 mb-1">
-          <span>Staffs</span>
+          <span>Assessments</span>
         </p>
         <ul class="navbar-nav flex-fill w-100 mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="index.php">
-              <i class="fe fe-codesandbox fe-16"></i>
-              <span class="ml-3 item-text">Staffs Directory</span>
-              </i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="department.php">
-              <i class="fe fe-users fe-16"></i>
-              <span class="ml-3 item-text">Department</span>
-              </i>
-            </a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link text-primary" href="#">
-              <i class="fe fe-book fe-16"></i>
-              <span class="ml-3 item-text">Designation</span>
-              </i>
+         
+          <!-- Type -->
+          <li class="nav-item w-100">
+            <a class="nav-link" href="assessment-type.html">
+              <i class="fe fe-calendar fe-16"></i>
+              <span class="ml-3 item-text">Type</span>
             </a>
           </li>
 
+           <!-- Questions -->
+           <li class="nav-item dropdown">
+            <a href="#questions-elements" data-toggle="collapse" aria-expanded="false"
+              class="dropdown-toggle nav-link">
+              <i class="fe fe-box fe-16"></i>
+              <span class="ml-3 item-text">Questions</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="questions-elements">
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="compile.html"><span class="ml-1 item-text">Question Bank</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Compile</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Generate
+                    Questions</span></a>
+              </li>
+             
+            </ul>
+          </li>
 
+          <!-- Exams -->
+          <li class="nav-item dropdown">
+            <a href="#exams-elements" data-toggle="collapse" aria-expanded="false"
+              class="dropdown-toggle nav-link">
+              <i class="fe fe-box fe-16"></i>
+              <span class="ml-3 item-text">Assessments</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="exams-elements">
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="assessment-type.html"><span class="ml-1 item-text">Student Assessments</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-audio.html"><span class="ml-1 item-text">Subject Assessments</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Attendance</span></a>
+              </li>
+            </ul>
+          </li>
+          
+          <!-- Mark -->
+          <li class="nav-item dropdown">
+            <a href="#mark-elements" data-toggle="collapse" aria-expanded="false"
+              class="dropdown-toggle nav-link">
+              <i class="fe fe-box fe-16"></i>
+              <span class="ml-3 item-text">Mark Assessment</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="mark-elements">
+              
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="students.html"><span class="ml-1 item-text">By Students</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="class.html"><span class="ml-1 item-text">By Class</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Send Marks By
+                    Sms</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Marksheet
+                    Report</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Mark
+                    Distribution</span></a>
+              </li>
+            </ul>
+          </li>
 
-
-
-          <!-- Leave -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Leave</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="leave-application.php">
-                <i class="fe fe-home fe-16"></i>
-                <span class="ml-3 item-text">Leave Application</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="leave-category.php">
-                <i class="fe fe-copy fe-16"></i>
-                <span class="ml-3 item-text">Leave Category</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="approved-leave.php">
-                <i class="fe fe-server fe-16"></i>
-                <span class="ml-3 item-text">Approved Leave</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pending-leave.php">
-                <i class="fe fe-fast-forward fe-16"></i>
-                <span class="ml-3 item-text">Pending Requests</span>
-                </i>
-              </a>
-            </li>
-          </ul>
-
-          <!-- Extras -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Extras</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-home fe-16"></i>
-                <span class="ml-3 item-text">Attendance</span>
-                </i>
-              </a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-copy fe-16"></i>
-                <span class="ml-3 item-text">Message</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-server fe-16"></i>
-                <span class="ml-3 item-text">Payroll</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-fast-forward fe-16"></i>
-                <span class="ml-3 item-text">Penalties</span>
-                </i>
-              </a>
-            </li>
-          </ul>
+          <!-- Planning -->
+          <li class="nav-item dropdown">
+            <a href="#planning-elements" data-toggle="collapse" aria-expanded="false"
+              class="dropdown-toggle nav-link">
+              <i class="fe fe-box fe-16"></i>
+              <span class="ml-3 item-text">Planning</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="planning-elements">
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Admit Card</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="study-content.html"><span class="ml-1 item-text">Seat Plan</span></a>
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
+       
+        <div class="btn-box w-100 mt-4 mb-1">
+          <a href="../index.html"
+            target="_blank" class="btn mb-2 btn-primary btn-lg btn-block">
+            <i class="fe fe-corner-up-left fe-12 mx-2"></i><span class="small">Back to main dashboard</span>
+          </a>
+        </div>
       </nav>
     </aside>
     <main role="main" class="main-content">
@@ -244,7 +283,7 @@
           <div class="row">
             <!-- Small table -->
             <div class="col-md-12 my-4">
-              <div class="row align-items-center my-3">
+              <!-- <div class="row align-items-center my-3">
                 <div class="col">
                   <h2 class="page-title">Assessment Types</h2>
                 </div>
@@ -252,103 +291,109 @@
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModel"><span
                       class="fe fe-plus fe-16 mr-3"></span>New</button>
                 </div>
-              </div>
+              </div> -->
               <div class="card shadow">
+
                 <div class="card-body">
-                  <div class="toolbar">
-                    <form class="form">
-                      <div class="form-row">
-
-                        <div class="form-group col-auto">
-                          <label for="search" class="sr-only">Search</label>
-                          <input type="text" class="form-control" id="search1" value="" placeholder="Search">
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <!-- table -->
                   <?php
-                  // Query to select all departments
-                  $query = "SELECT a.*, c.class FROM assessment_types a INNER JOIN classes c ON a.class_id = c.id ORDER BY a.assessment_type ASC";
-                  $stmt = $pdo->prepare($query);
-                  $stmt->execute();
-                  $assessment_types = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                  if (isset($_REQUEST['subject'])) {
+                    $subject = $_REQUEST['subject'];
 
-                  if (count($assessment_types) === 0) {
-                    echo '<div class="text-center">None Added Yet!</div>';
-                  } else {
+
+                    // Fetch subjects
+                    $query_subjects = "SELECT s.class_id, s.subject, c.class FROM subjects s INNER JOIN classes c ON s.class_id = c.id WHERE s.id = :subject";
+                    $stmt_subjects = $pdo->prepare($query_subjects);
+                    $stmt_subjects->bindParam(':subject', $subject, PDO::PARAM_INT);
+                    $stmt_subjects->execute();
+                    $subjects_class = $stmt_subjects->fetch(PDO::FETCH_ASSOC);
+
+                    $class = $subjects_class['class_id'];
+                    $class_name = $subjects_class['class'];
+                    $subject_name = $subjects_class['subject'];
+
+                    // Fetch students
+                    $query_students = "SELECT * FROM students WHERE class_id = :class";
+                    $stmt_students = $pdo->prepare($query_students);
+                    $stmt_students->bindParam(':class', $class, PDO::PARAM_INT);
+                    $stmt_students->execute();
+                    $students = $stmt_students->fetchAll(PDO::FETCH_ASSOC);
+
+
                     ?>
-                    <table class="table table-borderless table-hover">
+                    <h4 class="card-title">Marks Entry for
+                      <?= $subject_name ?> - <?= $class_name ?>
+                    </h4>
+                    <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>#</th>
-                          <th>Type</th>
-                          <th>Marks</th>
-                          <th>Class</th>
-                          <th>Start</th>
-                          <th>Deadline</th>
-                          <th>Action</th>
+                          <th>Student Name</th>
+                          <?php
+                          // Fetch assessment types
+                          $query_assessment_types = "SELECT * FROM assessment_types WHERE class_id = :class ORDER BY `assessment_types`.`assessment_id` ASC";
+                          $stmt_assessment_types = $pdo->prepare($query_assessment_types);
+                          $stmt_assessment_types->bindParam(':class', $class, PDO::PARAM_INT);
+                          $stmt_assessment_types->execute();
+                          $assessment_types = $stmt_assessment_types->fetchAll(PDO::FETCH_ASSOC);
+
+                          foreach ($assessment_types as $assessment_type) {
+                            echo "<th>{$assessment_type['assessment_type']}</th>";
+                          }
+                          ?>
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($assessment_types as $index => $assessment_type): ?>
-                          <tr>
-                            <td>
-                              <?= $index + 1 ?>
-                            </td>
-                            <td>
-                              <p class="mb-0 text-muted">
-                                <strong class="mb-0 text-muted assessment_type-name"
-                                  data-assessment_type-id="<?= $assessment_type['assessment_id'] ?>">
-                                  <?= $assessment_type['assessment_type'] ?>
-                                </strong>
-                                <input type="hidden" class="assessment_type-id" value="<?= $assessment_type['assessment_id'] ?>">
-                                <input type="hidden" class="assessment_type-class-id"
-                                  value="<?= $assessment_type['class_id'] ?>">
-                              </p>
-                            </td>
-                            <td>
-                              <p class="mb-0 text-muted">
-                                <strong class="mb-0 text-muted total_marks">
-                                  <?= $assessment_type['marks'] ?>
-                                </strong>
-                              </p>
-                            </td>
-                            <td>
-                              <p class="mb-0 text-muted">
-                                <strong class="mb-0 text-muted class-name">
-                                  <?= $assessment_type['class'] ?>
-                                </strong>
-                              </p>
-                            </td>
-                            <td>
-                              <p class="mb-0 text-muted">
-                                <strong class="mb-0 text-muted start-week">
-                                  <?= $assessment_type['start'] ?>
-                                </strong>
-                              </p>
-                            </td>
-                            <td>
-                              <p class="mb-0 text-muted">
-                                <strong class="mb-0 text-muted deadline-week">
-                                  <?= $assessment_type['deadline'] ?>
-                                </strong>
-                              </p>
-                            </td>
-                            <td>
-                              <button class="btn btn-sm btn-primary edit-button" type="button">
-                                <i class="fe fe-edit"></i> Edit
-                              </button>
-                              <button class="btn btn-sm btn-danger remove-button" type="button">
-                                <i class="fe fe-trash"></i> Remove
-                              </button>
-                            </td>
-                          </tr>
-                        <?php endforeach; ?>
+                        <?php
+                        foreach ($students as $student) {
+                          echo "<tr>";
+                          echo "<td>{$student['firstName']} {$student['lastName']}</td>";
+
+                          foreach ($assessment_types as $assessment_type) {
+                            $assessment_id = $assessment_type['assessment_id'];
+                            $student_id = $student['id'];
+
+                            // Fetch marks for this student and assessment type
+                            $query_marks = "SELECT * FROM assessment_marks WHERE student_id = :student_id AND assessment_id = :assessment_id AND session_id = :session_id AND term = :term AND subject_id = :subject_id";
+                            $stmt_marks = $pdo->prepare($query_marks);
+                            $stmt_marks->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+                            $stmt_marks->bindParam(':subject_id', $subject, PDO::PARAM_INT);
+                            $stmt_marks->bindParam(':assessment_id', $assessment_id, PDO::PARAM_INT);
+                            $stmt_marks->bindParam(':session_id', $session_id, PDO::PARAM_INT);
+                            $stmt_marks->bindParam(':term', $term, PDO::PARAM_INT);
+                            $stmt_marks->execute();
+                            $marks = $stmt_marks->fetch(PDO::FETCH_ASSOC);
+
+                            // Display input field to enter marks
+                            echo "<td>";
+                            echo "<form action='save-marks.php' class='add_marks_form' method='POST'>";
+                            echo "<input type='hidden' name='student_id' value='{$student_id}'>";
+                            echo "<input type='hidden' name='subject_id' value='{$subject}'>";
+                            echo "<input type='hidden' name='class_id' value='{$class}'>";
+                            echo "<input type='hidden' name='assessment_id' value='{$assessment_id}'>";
+                            echo "<input type='number' class='form-control w-10' name='marks' value='{$marks['mark']}'>";
+                            echo "<button type='submit' class='btn btn-sm w-100 btn-success'>Save</button>";
+                            echo "</form>";
+                            echo "</td>";
+                          }
+                          echo "</tr>";
+                        }
+                        ?>
                       </tbody>
                     </table>
-                  <?php } ?>
+
+                  <?php } else { ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <strong>Nothing Selected! Redirecting...</strong>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <?php
+                    // Redirect to assessment.php if no class is selected
+                    // echo "<script>window.location.href = 'assessment.php';</script>";
+                  }
+                  ?>
                 </div>
+
               </div>
             </div> <!-- customized table -->
           </div> <!-- end section -->
@@ -391,7 +436,7 @@
                   <div class="form-group col-6">
                     <label for="deadline" class="col-form-label">Deadline: *</label>
                     <select id="deadline" class="form-control select2 required" required name="deadline" required>
-                    <?php
+                      <?php
                       $weeks = array('1 week', '2 week', '3 week', '4 week', '5 week', '6 week', '7 week', '8 week', '9 week', '10 week', '11 week', '12 week');
                       echo "<option value=''>Select Start Week</option>";
                       foreach ($weeks as $week):
@@ -772,193 +817,36 @@
       }, 5000);
     }
 
-
-
     $(document).ready(function () {
+      $('.add_marks_form').submit(function (event) {
+        event.preventDefault(); // Prevent the default form submission
 
-      // Event listener for Edit button click
-      // Event listener for Edit button click
-      $(document).on('click', '.edit-button', function () {
-        var assessmentTypeRow = $(this).closest('tr');
-        var typeTitle = assessmentTypeRow.find('.assessment_type-name').text().trim();
-        var assessmentTypeId = assessmentTypeRow.find('.assessment_type-id').val();
-        var classId = assessmentTypeRow.find('.assessment_type-class-id').val();
-        var startWeek = assessmentTypeRow.find('.start-week').text().trim();
-        var deadlineWeek = assessmentTypeRow.find('.deadline-week').text().trim();
-        var totalMarks = assessmentTypeRow.find('.total_marks').text().trim();
+        // Serialize form data
+        var formData = $(this).serialize();
 
-        console.log(assessmentTypeId);
-
-        // Populate modal fields with current data
-        $('#edit-assessment_type-name').val(typeTitle);
-        $('#edit-start-week option').each(function () {
-          if ($(this).val() == startWeek) {
-            $(this).prop('selected', true);
-          }
-        });
-        $('#edit-deadline option').each(function () {
-          if ($(this).val() == deadlineWeek) {
-            $(this).prop('selected', true);
-          }
-        });
-        $('#edit-total_marks').val(totalMarks);
-        $('#edit-class-id').val(classId);
-        $('#edit-assessment_type-id').val(assessmentTypeId);
-
-        // Fetch classes from the server
+        // Submit form data via AJAX
         $.ajax({
-          url: 'fetch-classes.php', // Replace with the actual endpoint
-          type: 'GET',
-          success: function (response) {
-            var classes = JSON.parse(response);
-            // Generate dropdown options
-            var dropdownOptions = '';
-            classes.forEach(function (classItem) {
-              var selected = (classItem.id == classId) ? 'selected' : '';
-              dropdownOptions += '<option value="' + classItem.id + '" ' + selected + '>' + classItem.class + '</option>';
-            });
-
-            // Replace class dropdown with populated options
-            $('#edit-class-id').html(dropdownOptions);
-          },
-          error: function (xhr, status, error) {
-            console.error('Error fetching classes:', error);
-            // Optionally display an error message to the user
-          }
-        });
-
-        // Show the edit modal
-        $('#editModel').modal('show');
-      });
-
-
-
-
-      // Event listener for saving changes
-      $('#typeSaveBtn').on('click', function () {
-        var Title = $('#assessment_type-name').val();
-        var Start = $('#start-week').val();
-        var End = $('#deadline').val();
-        var Marks = $('#total_marks').val();
-        var ClassId = $('#class-id').val();
-
-        // Perform AJAX request to update designation information in the database
-        $.ajax({
-          url: 'add-type.php',
+          url: 'save-marks.php',
           type: 'POST',
-          data: { 
-            name: Title,
-            start: Start,
-            end: End, 
-            class_id: ClassId,
-            marks:  Marks
-          },
+          data: formData,
+          dataType: 'json',
           success: function (response) {
-            // Parse the JSON response
-            var responseData = JSON.parse(response);
-            displayPopup(responseData.message, responseData.success);
-            if (responseData.success == true) {
-              $('#newModal').modal('hide');
-              setTimeout(function () {
-                location.reload();
-              }, 2000);
+            // Handle the response
+            if (response.success) {
+              displayPopup(response.message, true);
+              // Optionally, update the UI or perform any other action
+            } else {
+              displayPopup(response.message, false);
             }
           },
           error: function (xhr, status, error) {
-            // Display error message
-            displayPopup(xhr.responseText, false);
             console.error(xhr.responseText);
+            // Handle errors if any
           }
         });
       });
-
-      $('#editAssessmentTypeBtn').on('click', function () {
-        var newTitle = $('#edit-assessment_type-name').val();
-        var newStart = $('#edit-start-week').val();
-        var newEnd = $('#edit-deadline').val();
-        var newMarks = $('#edit-total_marks').val();
-        var newClassId = $('#edit-class-id').val();
-        var Id = $('#edit-assessment_type-id').val();
-
-        // Perform AJAX request to update designation information in the database
-        $.ajax({
-          url: 'update-type.php',
-          type: 'POST',
-          data: {
-            id: Id, 
-            name: newTitle,
-            start: newStart,
-            end: newEnd, 
-            class_id: newClassId,
-            marks:  newMarks
-          },
-          success: function (response) {
-            // Parse the JSON response
-            var responseData = JSON.parse(response);
-            displayPopup(responseData.message, responseData.success);
-            if (responseData.success == true) {
-              $('#editModel').modal('hide'); 
-              setTimeout(function () {
-                location.reload();
-              }, 2000);
-            }
-          },
-          error: function (xhr, status, error) {
-            // Display error message
-            displayPopup(xhr.responseText, false);
-            console.error(xhr.responseText);
-          }
-        });
-      });
-
-
-      function removedesignation(element) {
-        var designationRow = $(element).closest('tr');
-        var typeTitle = designationRow.find('.assessment_type-name');
-        var editButton = designationRow.find('.remove-button');
-        var id = designationRow.find('.assessment_type-id').val(); // Accessing the value of the designation ID
-
-        // Show confirmation modal
-        $('#confirmationModal').modal('show');
-
-        // Add click event listener to the confirmation button
-        $('.confirm-remove').off('click').on('click', function () {
-          // Send AJAX request to remove the designation
-          $.ajax({
-            type: 'POST',
-            url: 'remove-type.php',
-            data: { id: id }, // Pass the designation ID
-            dataType: 'json',
-            success: function (response) {
-              if (response.success) {
-                // Remove the row from the table
-                designationRow.remove();
-                displayPopup(response.message, true);
-              } else {
-                displayPopup(response.message, false);
-              }
-            },
-            error: function (xhr, status, error) {
-              displayPopup('Error occurred during request. Contact Admin', false);
-            },
-          });
-
-          // Hide the modal after action
-          $('#confirmationModal').modal('hide');
-        });
-      };
-
-      // Event listener for Edit/Save button
-      $(document).on('click', '.remove-button', function () {
-        removedesignation(this);
-      });
-
     });
-
-
   </script>
-
-
 
 
 

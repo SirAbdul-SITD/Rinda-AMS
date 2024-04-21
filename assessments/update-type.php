@@ -5,7 +5,8 @@ require('../settings.php');
 
 $user = 1;
 
-
+try {
+     
 if (
     isset($_POST['id'],
     $_POST['name'],
@@ -24,7 +25,7 @@ if (
     $marks = $_POST['marks'];
 
     // Check if any designation already has the new name
-    $query = "SELECT * FROM assessment_types WHERE `assessment_type` = :name AND `class_id` = :class_id AND `id` != :id";
+    $query = "SELECT * FROM assessment_types WHERE `assessment_type` = :name AND `class_id` = :class_id AND `assessment_id` != :id";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -37,7 +38,7 @@ if (
         $response = ['success' => false, 'message' => 'Assessment Type with the same name already exists in class!'];
     } else {
         // Update the designation
-        $query = "UPDATE assessment_types SET `assessment_type` = :name, `marks` = :marks, `class_id` = :class_id, `start` = :start, `deadline` = :deadline WHERE `id` = :id";
+        $query = "UPDATE assessment_types SET `assessment_type` = :name, `marks` = :marks, `class_id` = :class_id, `start` = :start, `deadline` = :deadline WHERE `assessment_id` = :id";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':marks', $marks, PDO::PARAM_INT);
@@ -54,6 +55,10 @@ if (
     // Invalid request: designation ID, name, salary, or department ID is not provided
     $response = ['success' => false, 'message' => 'Invalid request. Please provide all form fields.'];
 }
+} catch (PDOException $e) {
+    $response = ['success' => false, 'message' => 'Database error: ' . $e->getMessage()];
+}
+
 
 // Output the JSON response
 echo json_encode($response);

@@ -34,6 +34,10 @@ $school_name = 'Rinda Academy';
 $school_address = '9022 Suspendisse Rd. High Wycombe 9022 Suspendisse Rd. High Wycombe';
 $school_email = 'gha@stradafrica.com.ng';
 $_SESSION['user'] = '1';
+$_SESSION['term'] = '1';
+$_SESSION['session'] = '1';
+$session_id = $_SESSION['term'];
+$term = $_SESSION['session'];
 
 // SSS 3
 
