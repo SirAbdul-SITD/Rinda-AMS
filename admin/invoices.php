@@ -15,6 +15,7 @@
   <link href="overpass-font.css" rel="stylesheet">
   <!-- Icons CSS -->
   <link rel="stylesheet" href="../css/feather.css">
+  <link rel="stylesheet" href="../css/dataTables.bootstrap4.css">
   <!-- Date Range Picker CSS -->
   <link rel="stylesheet" href="../css/daterangepicker.css">
   <!-- App CSS -->
@@ -24,18 +25,6 @@
     .card {
       border-radius: 8px;
     }
-
-    @media print {
-    table {
-        /* Reset margins and padding */
-        margin: 0;
-        padding: 0;
-        
-        /* Adjust width if necessary */
-        width: 100%;
-    }
-}
-
   </style>
 </head>
 
@@ -74,14 +63,18 @@
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <div class="text-right" style="margin-right: 10%;">
-              <p style="padding: 0%; margin: 0%;">sirabdul@rinda.ai</p>
-              <strong>Super Admin</strong>
+            <div class=" col-12 text-left">
+              <p style="padding: 0%; margin: 0%;">
+                <?= $full_name; ?>
+              </p>
+              <strong>
+                <?= $account_type; ?>
+              </strong>
             </div>
             <hr width="80%">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activities</a>
+            <a class="dropdown-item" href="../settings/profile.php">Profile</a>
+            <a class="dropdown-item" href="../settings">Settings</a>
+            <a class="dropdown-item" href="../logout.php">Log out</a>
           </div>
         </li>
       </ul>
@@ -120,7 +113,7 @@
                 <a class="nav-link pl-3" href="../fees-type.php"><span class="ml-1 item-text">Fees Type</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link pl-3 text-primary" href="index.php"><span class="ml-1 item-text">Invoices</span></a>
+                <a class="nav-link pl-3 text-primary" href="#"><span class="ml-1 item-text">Invoices</span></a>
               </li>
               <!-- <li class="nav-item">
                 <a class="nav-link pl-3" href="payment-history.php"><span class="ml-1 item-text">Payment
@@ -415,371 +408,330 @@
     <main role="main" class="main-content">
       <div class="container-fluid">
         <div class="row justify-content-center">
-          <?php
-          // Retrieve invoice data from the database
-          $invoiceId = $_GET['id']; // Assuming you pass the invoice ID via GET parameter
-          $query = "SELECT * FROM invoice WHERE id = :id";
-          $stmt = $pdo->prepare($query);
-          $stmt->bindParam(':id', $invoiceId, PDO::PARAM_INT);
-          $stmt->execute();
-          $invoice = $stmt->fetch(PDO::FETCH_ASSOC);
-
-          // Retrieve invoice items data from the database
-          $query = "SELECT * FROM invoice_item WHERE invoice_id = :invoice_id";
-          $stmt = $pdo->prepare($query);
-          $stmt->bindParam(':invoice_id', $invoiceId, PDO::PARAM_INT);
-          $stmt->execute();
-          $invoiceItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-          // Retrieve student name
-          $studentId = $invoice['student_id'];
-          $query = "SELECT * FROM students WHERE id = :id";
-          $stmt = $pdo->prepare($query);
-          $stmt->bindParam(':id', $studentId, PDO::PARAM_INT);
-          $stmt->execute();
-          $student = $stmt->fetch(PDO::FETCH_ASSOC);
-
-          // Function to calculate the total amount of invoice items
-          function calculateTotalAmount($invoiceId)
-          {
-            global $pdo; // Assuming $pdo is your PDO database connection object
-          
-            // Prepare SQL query to sum the total amount of invoice items
-            $stmt = $pdo->prepare("SELECT SUM(amount) AS total_amount FROM invoice_item WHERE invoice_id = :invoice_id");
-            $stmt->bindParam(':invoice_id', $invoiceId, PDO::PARAM_INT);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $row['total_amount'] ?? 0;
-          }
-
-          // Function to calculate the total paid amount
-          function calculatePaidAmount($invoiceId)
-          {
-            global $pdo; // Assuming $pdo is your PDO database connection object
-          
-            // Prepare SQL query to sum the total paid amount
-            $stmt = $pdo->prepare("SELECT SUM(amount) AS total_paid FROM invoice_item WHERE invoice_id = :invoice_id AND status = 'paid'");
-            $stmt->bindParam(':invoice_id', $invoiceId, PDO::PARAM_INT);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $row['total_paid'] ?? 0;
-          }
-          ?>
-
-          <div class="col-12 col-lg-10 col-xl-8">
-            <div class="row align-items-center mb-4">
-              <div class="col">
-                <h2 class="h5 page-title"><small class="text-muted text-uppercase">Invoice</small><br />#
-                  <?= $invoice['invoice_number'] ?>
-                </h2>
-              </div>
-              <div class="col-auto">
-                <button type="button" class="btn btn-secondary"  onclick="printDiv('invoice')">Print</button>
-                <button type="button" class="btn btn-primary">Pay</button>
-              </div>
-            </div>
-            <div class="card shadow">
-              <div class="card-body p-5"  id="invoice">
-                <div class="row mb-4">
-                  <div class="col-12 text-center mb-4">
-                    <img src="../assets/images/logo.svg" class="navbar-brand-img brand-sm mx-auto mb-4" alt="...">
-                    <h2 class="mb-0 text-uppercase">Invoice</h2>
-                    <p class="text-muted">
-                      <?= $school_name ?>
-                    </p>
+          <div class="col-12">
+            <div class="row">
+              <!-- Small table -->
+              <div class="col-md-12 my-4">
+                <div class="row align-items-center my-3">
+                  <div class="col">
+                    <h3 class="page-title">Invoices</h3>
                   </div>
-                  <div class="col-md-5">
-                    <p class="mb-4">
-                    <p class="small text-muted text-uppercase mb-2">Invoice from</p>
-                    <strong>
-                      <?= $school_name ?>
-                    </strong><br /> <br />
-                    <?= $school_address ?> <br />
-                    </p>
+                  <div class="col-auto">
+                    <a href="new.php">
+                    <button type="button" class="btn  btn-primary"><span
+                        class="fe fe-plus fe-16 mr-3"></span>New</button></a>
                   </div>
+                </div>
+                <div class="row">
+                  <!-- Striped rows -->
+                  <div class="col-md-12 my-4">
+                    <div class="card shadow">
+                      <div class="card-body">
+                        <!-- table -->
+                        <?php
+                        
+                        // Fetch invoice data from the database
+                        $stmt = $pdo->query("SELECT * FROM Invoice");
+                        $invoices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                  <div class="col-md-2"></div>
+                        // Function to calculate total amount for an invoice
+                        function calculateTotalAmount($invoiceId, $pdo)
+                        {
+                          // Fetch total amount for the given invoice ID
+                          $stmt = $pdo->prepare("SELECT SUM(amount) FROM Invoice_Item WHERE invoice_id = ?");
+                          $stmt->execute([$invoiceId]);
+                          $totalAmount = $stmt->fetchColumn();
 
-                  <div class="col-md-5">
-                    <p class="mb-4">
-                    <p class="small text-muted text-uppercase mb-2">Invoice To</p>
-                    <strong>
-                      <?= $invoice['student_name'] ?>
-                    </strong><br /> <br />
-                    <?= $student['address'] ?> <br />
+                          return $totalAmount;
+                        }
 
-                    </p>
-                  </div>
-                </div> <!-- /.row -->
-                <div class="row mb-4">
+                        // Function to calculate paid amount for an invoice
+                        function calculatePaidAmount($invoiceId, $pdo)
+                        {
+                          // Fetch paid amount for the given invoice ID
+                          $stmt = $pdo->prepare("SELECT SUM(amount) FROM Invoice_Item WHERE invoice_id = ? AND status = 'Paid'");
+                          $stmt->execute([$invoiceId]);
+                          $paidAmount = $stmt->fetchColumn();
 
-                  <div class="col-md-7">
+                          return $paidAmount;
+                        }
 
-                    <p>
-                      <span class="small text-muted text-uppercase">Invoice #</span><br />
-                      <strong>
-                        <?= $invoice['invoice_number'] ?>
-                      </strong>
-                    </p>
-                  </div>
-                  <div class="col-md-5">
+                        ?>
 
-                    <p>
-                      <small class="small text-muted text-uppercase">Due date</small><br />
-                      <strong>
-                        <?= $invoice['due_date'] ?>
-                      </strong>
-                    </p>
-                  </div>
-                </div> <!-- /.row -->
-                <table class="table table-borderless table-striped align-self-center">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Description</th>
-                      <th scope="col" class="text-right">Amount</th>
-                      <th scope="col" class="text-right">Qty</th>
-                      <th scope="col" class="text-right">Total</th>
-                      <th scope="col" class="text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php foreach ($invoiceItems as $index => $item): ?>
-                      <tr>
-                        <th scope="row">
-                          <?= $index + 1 ?>
-                        </th>
-                        <td>
-                          <?= $item['description'] ?>
-                        </td>
-                        <td class="text-right">
-                          <?= '$' . number_format($item['unit_price'], 2) ?>
-                        </td>
-                        <td class="text-right">
-                          <?= $item['quantity'] ?>
-                        </td>
-                        <td class="text-right">
-                          <?= '$' . number_format($item['unit_price'] * $item['quantity'], 2) ?>
-                        </td>
-                        <td>
-                          <?php
-                          if ($item['status'] == 'paid') {
-                            $status = 'Paid';
-                            $badgeClass = 'badge-success';
-                          } else {
-                            $status = 'Pending';
-                            $badgeClass = 'badge-warning';
-                          }
-                          ?>
-                          <span class="badge <?= $badgeClass ?>"><?= $status ?></span>
-                        </td>
+                        <table class="table datatables" id="dataTable-1">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Invoice</th>
+                              <th>Student</th>
+                              <th>Class</th>
+                              <th>Generated</th>
+                              <th>Total</th>
+                              <th>Paid</th>
+                              <th>Balance</th>
+                              <th>Due</th>
+                              <th>Status</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php foreach ($invoices as $index => $invoice): ?>
+                              <tr>
+                                <td>
+                                  <?= $index + 1 ?>
+                                </td>
+                                <td>
+                                  <?= $invoice['invoice_number'] ?>
+                                </td>
+                                <td>
+                                  <?= $invoice['student_name'] ?>
+                                </td>
+                                <td>
+                                  <?= $invoice['class'] ?>
+                                </td>
+                                <td>
+                                  <?= $invoice['invoice_date'] ?>
+                                </td>
+                                <td>$
+                                  <?= number_format(calculateTotalAmount($invoice['id'], $pdo), 2) ?>
+                                </td>
 
-                      </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
-                <div class="row mt-5">
-                  <div class="col-2 text-center">
-                    <!-- <img src="../assets/images/qrcode.svg" class="navbar-brand-img brand-sm mx-auto my-4" alt="..."> -->
-                  </div>
-                  <div class="col-md-5">
-                    <!-- <p class="text-muted small">
-                      <strong>Note :</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit
-                      nisi sed sollicitudin pellentesque. Nunc posuere purus rhoncus pulvinar aliquam.
-                    </p> -->
-                  </div>
-                  <?php
-                  // Assuming $totalAmount, $paidAmount, and $balance are defined or calculated somewhere in your PHP code
-                  $totalAmount = calculateTotalAmount($invoiceId); // Example function to calculate total amount
-                  $paidAmount = calculatePaidAmount($invoiceId); // Example function to calculate paid amount
-                  $balance = $totalAmount - $paidAmount; // Calculate the balance
-                  ?>
+                                <td>$
+                                  <?= number_format(calculatePaidAmount($invoice['id'], $pdo), 2) ?>
+                                </td>
+                                <td>$
+                                  <?= number_format(calculateTotalAmount($invoice['id'], $pdo) - calculatePaidAmount($invoice['id'], $pdo), 2) ?>
+                                </td>
+                                <td>
+                                  <?= $invoice['due_date'] ?>
+                                </td>
+                                <td>
+                                  <?php
+                                  $totalAmount = calculateTotalAmount($invoice['id'], $pdo);
+                                  $paidAmount = calculatePaidAmount($invoice['id'], $pdo);
+                                  $balance = $totalAmount - $paidAmount;
 
-                  <div class="col-md-5">
-                    <div class="text-right mr-2">
-                      <p class="mb-2 h6">
-                        <span class="text-muted">Invoice Total : </span>
-                        <strong>$
-                          <?= number_format($totalAmount, 2) ?>
-                        </strong>
-                      </p>
-                      <p class="mb-2 h6">
-                        <span class="text-muted">Total Paid : </span>
-                        <strong>$
-                          <?= number_format($paidAmount, 2) ?>
-                        </strong>
-                      </p>
-                      <p class="mb-2 h6">
-                        <span class="text-muted">Total Outstanding: </span>
-                        <span>$
-                          <?= number_format($balance, 2) ?>
-                        </span>
-                      </p>
+                                  if ($balance <= 0) {
+                                    // If the balance is zero or negative, set status to Paid
+                                    $status = 'Paid';
+                                    $badgeClass = 'badge-success';
+                                  } elseif ($balance > 0 && $invoice['due_date'] < date('Y-m-d')) {
+                                    // If the balance is positive and due date is past, set status to Outstanding
+                                    $status = 'Outstanding';
+                                    $badgeClass = 'badge-danger';
+                                  } else {
+                                    // If the balance is positive and due date is not past, set status to Pending
+                                    $status = 'Pending';
+                                    $badgeClass = 'badge-warning';
+                                  }
+                                  ?>
+                                  <span class="badge <?= $badgeClass ?>"><?= $status ?></span>
+                                </td>
+
+
+                                <td>
+                                  <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="text-muted sr-only">Action</span>
+                                  </button>
+                                  <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="invoice.php?id=<?= $invoice['id'] ?>">View</a>
+                                    <a class="dropdown-item" href="#">Edit</a>
+                                    <a class="dropdown-item" href="#">Mark as Paid</a>
+                                    <a class="dropdown-item" href="#">Send Reminder</a>
+                                  </div>
+                                </td>
+                              </tr>
+                            <?php endforeach; ?>
+                          </tbody>
+                        </table>
+
+                      </div>
                     </div>
-                  </div>
-
-                </div> <!-- /.row -->
-              </div> <!-- /.card-body -->
-            </div> <!-- /.card -->
-          
-          </div> <!-- /.col-12 -->
-        
-        </div> <!-- .row -->
-      </div> <!-- .container-fluid -->
-      <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="list-group list-group-flush my-n3">
-                <div class="list-group-item bg-transparent">
+                  </div> <!-- simple table -->
+                </div> <!-- end section -->
+              </div> <!-- .col-12 -->
+            </div> <!-- .row -->
+          </div> <!-- .container-fluid -->
+          <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"         aria-hidden="true">         <div class="modal-dialog modal-sm" role="document">           <div class="modal-content">             <div class="modal-header">               <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>               <button type="button" class="close" data-dismiss="modal" aria-label="Close">                 <span aria-hidden="true">&times;</span>               </button>             </div>             <div class="modal-body">               <div class="list-group list-group-flush my-n3">                 <div class="list-group-item bg-transparent">                   <div class="row align-items-center">                      <div class="col text-center">                       <small><strong>You're well up to date</strong></small>                       <div class="my-0 text-muted small">No notifications available</div>                     </div>                   </div>                 </div>               </div> <!-- / .list-group -->             </div>             <div class="modal-footer">               <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal" disabled>Clear All</button>             </div>           </div>         </div>       </div>
+          <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
+            aria-labelledby="defaultModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body px-5">
                   <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-box fe-24"></span>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-success justify-content-center">
+                        <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>Control area</p>
                     </div>
-                    <div class="col">
-                      <small><strong>Package has uploaded successfull</strong></small>
-                      <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                      <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>Admission</p>
                     </div>
                   </div>
-                </div>
-                <div class="list-group-item bg-transparent">
                   <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-download fe-24"></span>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>E-Learning</p>
                     </div>
-                    <div class="col">
-                      <small><strong>Widgets are updated successfull</strong></small>
-                      <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
-                      <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>Virtual Meetings</p>
                     </div>
                   </div>
-                </div>
-                <div class="list-group-item bg-transparent">
                   <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-inbox fe-24"></span>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>Library Management</p>
                     </div>
-                    <div class="col">
-                      <small><strong>Notifications have been sent</strong></small>
-                      <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                      <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>Human Resources</p>
                     </div>
-                  </div> <!-- / .row -->
-                </div>
-                <div class="list-group-item bg-transparent">
+                  </div>
                   <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-link fe-24"></span>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>Assessments</p>
                     </div>
-                    <div class="col">
-                      <small><strong>Link was attached to menu</strong></small>
-                      <div class="my-0 text-muted small">New layout has been attached to the menu</div>
-                      <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                    <div class="col-6 text-center">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p>Settings</p>
                     </div>
                   </div>
-                </div> <!-- / .row -->
-              </div> <!-- / .list-group -->
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body px-5">
-              <div class="row align-items-center">
-                <div class="col-6 text-center">
-                  <div class="squircle bg-success justify-content-center">
-                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Control area</p>
-                </div>
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-activity fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Admission</p>
-                </div>
-              </div>
-              <div class="row align-items-center">
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>E-Learning</p>
-                </div>
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Virtual Meetings</p>
-                </div>
-              </div>
-              <div class="row align-items-center">
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Library Management</p>
-                </div>
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Human Resources</p>
-                </div>
-              </div>
-              <div class="row align-items-center">
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Assessments</p>
-                </div>
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Settings</p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </main> <!-- main -->
   </div> <!-- .wrapper -->
-  
-<script>
-function printDiv(divId) {
-    var content = document.getElementById(divId).innerHTML;
-    var printWindow = window.open('', '_blank');
-    printWindow.document.open();
-    printWindow.document.write('<html><head><title>Print</title></head><body>' + content + '</body></html>');
-    printWindow.document.close();
-    printWindow.print();
-}
-</script>
+
+
+  <!-- new Modal-->
+  <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newModalLabel">Add New Fee Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="newForm">
+            <div class="form-group">
+              <label for="fee-name" class="col-form-label">Fees Type:</label>
+              <input type="text" class="form-control" id="fee-name" required>
+            </div>
+            <div class="form-group">
+              <label for="fee-amount" class="col-form-label">Amount:</label>
+              <input type="number" class="form-control" id="fee-amount" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="custom-subject">Duration</label>
+                <select class="custom-select" id="custom-subject" name="subject" required>
+                  <!-- Options for subject -->
+                  <option selected disabled>Select</option>
+                  <option value="1">One-time Payment</option>
+                  <option value="2">Weekly</option>
+                  <option value="3">Monthly</option>
+                  <option value="4">Per Term</option>
+                  <option value="5">Per session</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="custom-class">Class <span><small>optional</small></span></label>
+                <select class="custom-select" id="custom-class" name="class" required>
+                  <!-- Options for class -->
+                  <option selected disabled>Select</option>
+                  <option value="Grade 1">Grade 1</option>
+                  <option value="Grade 2">Grade 2</option>
+                  <option value="Grade 3">Grade 3</option>
+                  <option value="Grade 4">Grade 4</option>
+                  <option value="Grade 5">Grade 5</option>
+                  <option value="Grade 6">Grade 6</option>
+                  <option value="Grade 7">Grade 7</option>
+                  <option value="Grade 8">Grade 8</option>
+                  <option value="Grade 9">Grade 9</option>
+                  <option value="Grade 10">Grade 10</option>
+                  <option value="Grade 11">Grade 11</option>
+                  <option value="Grade 12">Grade 12</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn mb-2 btn-primary w-100" id="saveBtn">Save
+            Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    $(document).ready(function () {
+
+      // Event listener for saving changes
+      $('#saveBtn').on('click', function () {
+
+        var newTitle = $('#fee-name').val();
+        var newAmount = $('#fee-amount').val();
+        var newClass = $('#custom-class').val();
+        var newSubject = $('#custom-subject').val();
+
+        // Perform AJAX request to update fee information in the database
+        $.ajax({
+          url: 'add-fee.php',
+          type: 'POST',
+          data: {
+            title: newTitle,
+            class: newClass,
+            subject: newSubject
+          },
+          success: function (response) {
+            // Handle success
+            console.log(response);
+            // Optionally update the UI to reflect the changes
+            // For example, update the title of the fee row
+            $('#newModal').modal('hide');
+          },
+          error: function (xhr, status, error) {
+            // Handle error
+            console.error(xhr.responseText);
+          }
+        });
+      });
+    });
+  </script>
+
+  <!-- end new -->
+
   <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/moment.min.js"></script>
@@ -789,6 +741,18 @@ function printDiv(divId) {
   <script src='../js/jquery.stickOnScroll.js'></script>
   <script src="../js/tinycolor-min.js"></script>
   <script src="../js/config.js"></script>
+  <script src='../js/jquery.dataTables.min.js'></script>
+  <script src='../js/dataTables.bootstrap4.min.js'></script>
+  <script>
+    $('#dataTable-1').DataTable(
+      {
+        autoWidth: true,
+        "lengthMenu": [
+          [16, 32, 64, -1],
+          [16, 32, 64, "All"]
+        ]
+      });
+  </script>
   <script src="../js/apps.js"></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>

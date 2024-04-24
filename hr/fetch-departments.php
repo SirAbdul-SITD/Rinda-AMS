@@ -1,6 +1,6 @@
 <?php
 // Include database connection
-require('settings.php');
+require('../settings.php');
 
 // Query to select all departments
 $query = "SELECT * FROM departments";

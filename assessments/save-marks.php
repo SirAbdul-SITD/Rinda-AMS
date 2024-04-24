@@ -2,7 +2,7 @@
 require_once '../settings.php'; // Include your settings file with database connection
 
 // Initialize response array
-$response = ['success' => false, 'message' => '', 'data' => []];
+$response = ['success' => false, 'message' => ''];
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,7 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject_id = $_POST['subject_id'];
     $class_id = $_POST['class_id'];
     $marks = $_POST['marks'];
-    
+    // $session_id = $_SESSION['term'];
+    // $term = $_SESSION['session'];
 
     // Check if assessment type exists
     $query_check_assessment_type = "SELECT * FROM assessment_types WHERE assessment_id = :assessment_id";
@@ -22,11 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assessment_type = $stmt_check_assessment_type->fetch(PDO::FETCH_ASSOC);
 
     if ($assessment_type) {
-        // Check if marks already exist for this student, assessment type, term, and session_id
-        $query_check_marks = "SELECT * FROM assessment_marks WHERE student_id = :student_id AND assessment_id = :assessment_id AND session_id = :session_id AND term = :term AND subject_id = :subject_id";
+        // Check if marks already exist for this student and assessment type
+        $query_check_marks = "SELECT * FROM assessment_marks WHERE student_id = :student_id AND assessment_id = :assessment_id AND session_id = :session_id AND term = :term AND subject_id = :subject_id AND class_id = :class_id";
         $stmt_check_marks = $pdo->prepare($query_check_marks);
         $stmt_check_marks->bindParam(':student_id', $student_id, PDO::PARAM_INT);
         $stmt_check_marks->bindParam(':subject_id', $subject_id, PDO::PARAM_INT);
+        $stmt_check_marks->bindParam(':class_id', $class_id, PDO::PARAM_INT);
         $stmt_check_marks->bindParam(':assessment_id', $assessment_id, PDO::PARAM_INT);
         $stmt_check_marks->bindParam(':session_id', $session_id, PDO::PARAM_INT);
         $stmt_check_marks->bindParam(':term', $term, PDO::PARAM_INT);
@@ -35,12 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($existing_marks) {
             // Update existing marks
-            $query_update_marks = "UPDATE assessment_marks SET mark = :marks WHERE student_id = :student_id AND assessment_id = :assessment_id AND session_id = :session_id AND term = :term AND subject_id = :subject_id";
+            $query_update_marks = "UPDATE assessment_marks SET mark = :marks WHERE student_id = :student_id AND assessment_id = :assessment_id AND session_id = :session_id AND term = :term AND subject_id = :subject_id AND class_id = :class_id";
             $stmt_update_marks = $pdo->prepare($query_update_marks);
             $stmt_update_marks->bindParam(':marks', $marks, PDO::PARAM_INT);
             $stmt_update_marks->bindParam(':student_id', $student_id, PDO::PARAM_INT);
-            $stmt_check_marks->bindParam(':subject_id', $subject_id, PDO::PARAM_INT);
             $stmt_update_marks->bindParam(':assessment_id', $assessment_id, PDO::PARAM_INT);
+            $stmt_update_marks->bindParam(':subject_id', $subject_id, PDO::PARAM_INT);
+            $stmt_update_marks->bindParam(':class_id', $class_id, PDO::PARAM_INT);
             $stmt_update_marks->bindParam(':session_id', $session_id, PDO::PARAM_INT);
             $stmt_update_marks->bindParam(':term', $term, PDO::PARAM_INT);
             $stmt_update_marks->execute();
@@ -48,13 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response['message'] = 'Marks updated successfully.';
         } else {
             // Insert new marks
-            $query_insert_marks = "INSERT INTO assessment_marks (student_id, assessment_id, subject_id, class_id, mark, session_id, term) VALUES (:student_id, :assessment_id, :subject_id, :class_id, :marks, :session_id, :term)";
+            $query_insert_marks = "INSERT INTO assessment_marks (student_id, subject_id, class_id, session_id, term, assessment_id, mark) VALUES (:student_id, :subject_id, :class_id, :session_id, :term, :assessment_id, :marks)";
             $stmt_insert_marks = $pdo->prepare($query_insert_marks);
             $stmt_insert_marks->bindParam(':student_id', $student_id, PDO::PARAM_INT);
             $stmt_insert_marks->bindParam(':assessment_id', $assessment_id, PDO::PARAM_INT);
+            $stmt_insert_marks->bindParam(':marks', $marks, PDO::PARAM_INT);
             $stmt_insert_marks->bindParam(':subject_id', $subject_id, PDO::PARAM_INT);
             $stmt_insert_marks->bindParam(':class_id', $class_id, PDO::PARAM_INT);
-            $stmt_insert_marks->bindParam(':marks', $marks, PDO::PARAM_INT);
             $stmt_insert_marks->bindParam(':session_id', $session_id, PDO::PARAM_INT);
             $stmt_insert_marks->bindParam(':term', $term, PDO::PARAM_INT);
             $stmt_insert_marks->execute();
@@ -63,11 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         $response['message'] = 'Assessment Type not found.';
+        $response['success'] = false;
     }
 }
-
-// Include all received data in the response
-$response['data'] = $_POST;
 
 // Return JSON response
 header('Content-Type: application/json');

@@ -1,6 +1,6 @@
 <?php
 // Include your database connection file (e.g., settings.php)
-require('settings.php'); ?>
+require('../settings.php'); ?>
 <!doctype html>
 <html lang="en">
 
@@ -65,14 +65,18 @@ require('settings.php'); ?>
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <div class="text-right" style="margin-right: 10%;">
-              <p style="padding: 0%; margin: 0%;">sirabdul@strad.africa</p>
-              <strong>Super Admin</strong>
+            <div class=" col-12 text-left">
+              <p style="padding: 0%; margin: 0%;">
+                <?= $full_name; ?>
+              </p>
+              <strong>
+                <?= $account_type; ?>
+              </strong>
             </div>
             <hr width="80%">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activities</a>
+            <a class="dropdown-item" href="../settings/profile.php">Profile</a>
+            <a class="dropdown-item" href="../settings">Settings</a>
+            <a class="dropdown-item" href="../logout.php">Log out</a>
           </div>
         </li>
       </ul>
@@ -372,81 +376,93 @@ require('settings.php'); ?>
           </div>
         </div>
 
-        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-          aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
+        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Dashboard</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <a href="../academics/" target="_blank" style="text-decoration: none;">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Academics</p>
-                    </a>
-                  </div>
+                    <p class="text-primary">Dashboard</p>
+                  </a>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
+                <div class="col-6 text-center">
+                  <a href="../academics/" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Academics</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>E-Learning</p>
-                  </div>
-                  <div class="col-6 text-center">
+                    <p class="text-primary">E-Learning</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Messages</p>
-                  </div>
+                    <p class="text-primary">Messages</p>
+                  </a>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="../shop" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-book fe-32 align-self-center text-white"></i>
+                      <i class="fe fe-shopping-bag fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Library</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <a href="#" style="text-decoration: none;" class="text-success">
-                      <div class="squircle bg-success justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>HR</p>
-                    </a>
-                  </div>
+                    <p class="text-primary">Shop</p>
+                  </a>
                 </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
+                <div class="col-6 text-center">
+                  <a href="../hr/" style="text-decoration: none;">
+                    <div class="squircle bg-success justify-content-center text-white">
+                      <i class="fe fe-users fe-32 align-self-center"></i>
+                    </div>
+                    <p class="text-success">HR</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="../assessments" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Assessments</p>
-                  </div>
-                  <div class="col-6 text-center">
+                    <p class="text-primary">Assessments</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="../settings" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-settings fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Settings</p>
-                  </div>
+                    <p class="text-primary">Settings</p>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </main> <!-- main -->
   </div> <!-- .wrapper -->
   <script src="../js/jquery.min.js"></script>

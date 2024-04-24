@@ -26,24 +26,16 @@
     }
 
     @media print {
-      table {
+    table {
         /* Reset margins and padding */
         margin: 0;
         padding: 0;
-
+        
         /* Adjust width if necessary */
         width: 100%;
-      }
     }
+}
 
-    .suggestion {
-      padding: 5px;
-      cursor: pointer;
-    }
-
-    .suggestion:hover {
-      background-color: #f0f0f0;
-    }
   </style>
 </head>
 
@@ -423,368 +415,220 @@
     <main role="main" class="main-content">
       <div class="container-fluid">
         <div class="row justify-content-center">
-          <div class="col-12">
-            <h2 class="page-title">Generate New Invoice</h2>
-            <p class="lead text-muted"></p>
+          <?php
+          // Retrieve invoice data from the database
+          $invoiceId = $_GET['id']; // Assuming you pass the invoice ID via GET parameter
+          $query = "SELECT * FROM invoice WHERE id = :id";
+          $stmt = $pdo->prepare($query);
+          $stmt->bindParam(':id', $invoiceId, PDO::PARAM_INT);
+          $stmt->execute();
+          $invoice = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            <div class="col-md-12">
-              <div class="card shadow mb-4">
+          // Retrieve invoice items data from the database
+          $query = "SELECT * FROM invoice_item WHERE invoice_id = :invoice_id";
+          $stmt = $pdo->prepare($query);
+          $stmt->bindParam(':invoice_id', $invoiceId, PDO::PARAM_INT);
+          $stmt->execute();
+          $invoiceItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                <div class="card-body">
-                  <div>
+          // Retrieve student name
+          $studentId = $invoice['student_id'];
+          $query = "SELECT * FROM students WHERE id = :id";
+          $stmt = $pdo->prepare($query);
+          $stmt->bindParam(':id', $studentId, PDO::PARAM_INT);
+          $stmt->execute();
+          $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
+          // Function to calculate the total amount of invoice items
+          function calculateTotalAmount($invoiceId)
+          {
+            global $pdo; // Assuming $pdo is your PDO database connection object
+          
+            // Prepare SQL query to sum the total amount of invoice items
+            $stmt = $pdo->prepare("SELECT SUM(amount) AS total_amount FROM invoice_item WHERE invoice_id = :invoice_id");
+            $stmt->bindParam(':invoice_id', $invoiceId, PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            return $row['total_amount'] ?? 0;
+          }
+
+          // Function to calculate the total paid amount
+          function calculatePaidAmount($invoiceId)
+          {
+            global $pdo; // Assuming $pdo is your PDO database connection object
+          
+            // Prepare SQL query to sum the total paid amount
+            $stmt = $pdo->prepare("SELECT SUM(amount) AS total_paid FROM invoice_item WHERE invoice_id = :invoice_id AND status = 'paid'");
+            $stmt->bindParam(':invoice_id', $invoiceId, PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $row['total_paid'] ?? 0;
+          }
+          ?>
+
+          <div class="col-12 col-lg-10 col-xl-8">
+            <div class="row align-items-center mb-4">
+              <div class="col">
+                <h2 class="h5 page-title"><small class="text-muted text-uppercase">Invoice</small><br />#
+                  <?= $invoice['invoice_number'] ?>
+                </h2>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-secondary"  onclick="printDiv('invoice')">Print</button>
+                <button type="button" class="btn btn-primary">Pay</button>
+              </div>
+            </div>
+            <div class="card shadow">
+              <div class="card-body p-5"  id="invoice">
+                <div class="row mb-4">
+                  <div class="col-12 text-center mb-4">
+                    <img src="../assets/images/logo.svg" class="navbar-brand-img brand-sm mx-auto mb-4" alt="...">
+                    <h2 class="mb-0 text-uppercase">Invoice</h2>
+                    <p class="text-muted">
+                      <?= $school_name ?>
+                    </p>
                   </div>
-                  <form action="upload-item.php" method="POST" class=" needs-validation" id="tinydash-dropzone"
-                    novalidate>
+                  <div class="col-md-5">
+                    <p class="mb-4">
+                    <p class="small text-muted text-uppercase mb-2">Invoice from</p>
+                    <strong>
+                      <?= $school_name ?>
+                    </strong><br /> <br />
+                    <?= $school_address ?> <br />
+                    </p>
+                  </div>
 
-                    <div class="input-space">
+                  <div class="col-md-2"></div>
 
-                      <!-- Section & Class -->
-                      <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                          <label for="validationSelect2">Section</label>
-                          <select class="form-control select2" id="validationSelect2" name='section'>
-                            <option value="">Select Section</option>
-                            <?php
-                            $query = "SELECT * FROM sections ORDER BY `sections`.`section` ASC";
-                            $stmt = $pdo->prepare($query);
-                            $stmt->execute();
-                            $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                  <div class="col-md-5">
+                    <p class="mb-4">
+                    <p class="small text-muted text-uppercase mb-2">Invoice To</p>
+                    <strong>
+                      <?= $invoice['student_name'] ?>
+                    </strong><br /> <br />
+                    <?= $student['address'] ?> <br />
 
-                            if (count($sections) === 0) {
-                              echo '<p class="text-center">None added Yet!</p>';
-                            } else {
-                              foreach ($sections as $section): ?>
-                                <option value="<?= $section['section']; ?>"> <?= $section['section'] ?></option>
-                              <?php endforeach;
-                            } ?>
-                          </select>
-                          <div class="invalid-feedback"> Please select a section before selecting a class. </div>
-                        </div>
+                    </p>
+                  </div>
+                </div> <!-- /.row -->
+                <div class="row mb-4">
 
-                        <div class="col-md-6 mb-3">
-                          <label for="studentClass">Class</label>
-                          <select class="form-control select2" id="studentClass" name='class' disabled>
-                            <option value="">Select Class</option>
-                          </select>
-                          <div class="invalid-feedback"> Please select a class before selecting a student. </div>
-                        </div>
-                      </div>
-                      <!-- /Section & Class -->
+                  <div class="col-md-7">
 
-                      <div class="form-group mb-3">
-                        <label for="studentName">Student Name</label>
-                        <select class="form-control select2" id="studentName" name='name' disabled>
-                            <option value="">Select Student</option>
-                          </select>
-                        <div class="valid-feedback"> Looks good! </div>
-                        <div class="invalid-feedback"> Please select a valid student name. </div>
-                      </div>
+                    <p>
+                      <span class="small text-muted text-uppercase">Invoice #</span><br />
+                      <strong>
+                        <?= $invoice['invoice_number'] ?>
+                      </strong>
+                    </p>
+                  </div>
+                  <div class="col-md-5">
 
-                      <script>
-                        // Enable/disable class select based on selected section
-                        document.getElementById('validationSelect2').addEventListener('change', function () {
-                          var sectionValue = this.value;
-                          var classSelect = document.getElementById('studentClass');
-                          var studentSelect = document.getElementById('studentName');
-
-               
-                            studentSelect.innerHTML = '<option value="">Select Student</option>';
-                            studentSelect.disabled = true;
-                            document.getElementById('studentName').disabled = true;
-                         
-
-                          if (sectionValue === '') {
-                            classSelect.innerHTML = '<option value="">Select Class</option>';
-                            classSelect.disabled = true;
-                            document.getElementById('address-wpalaceholder').disabled = true;
-                            return;
+                    <p>
+                      <small class="small text-muted text-uppercase">Due date</small><br />
+                      <strong>
+                        <?= $invoice['due_date'] ?>
+                      </strong>
+                    </p>
+                  </div>
+                </div> <!-- /.row -->
+                <table class="table table-borderless table-striped align-self-center">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Description</th>
+                      <th scope="col" class="text-right">Amount</th>
+                      <th scope="col" class="text-right">Qty</th>
+                      <th scope="col" class="text-right">Total</th>
+                      <th scope="col" class="text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($invoiceItems as $index => $item): ?>
+                      <tr>
+                        <th scope="row">
+                          <?= $index + 1 ?>
+                        </th>
+                        <td>
+                          <?= $item['description'] ?>
+                        </td>
+                        <td class="text-right">
+                          <?= '$' . number_format($item['unit_price'], 2) ?>
+                        </td>
+                        <td class="text-right">
+                          <?= $item['quantity'] ?>
+                        </td>
+                        <td class="text-right">
+                          <?= '$' . number_format($item['unit_price'] * $item['quantity'], 2) ?>
+                        </td>
+                        <td>
+                          <?php
+                          if ($item['status'] == 'paid') {
+                            $status = 'Paid';
+                            $badgeClass = 'badge-success';
+                          } else {
+                            $status = 'Pending';
+                            $badgeClass = 'badge-warning';
                           }
+                          ?>
+                          <span class="badge <?= $badgeClass ?>"><?= $status ?></span>
+                        </td>
 
-                          var xhr = new XMLHttpRequest();
-                          xhr.open('GET', 'fetch_classes.php?section=' + sectionValue, true);
-                          xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                              classSelect.innerHTML = xhr.responseText;
-                              classSelect.disabled = false;
-                            }
-                          };
-                          xhr.send();
-                        });
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+                <div class="row mt-5">
+                  <div class="col-2 text-center">
+                    <!-- <img src="../assets/images/qrcode.svg" class="navbar-brand-img brand-sm mx-auto my-4" alt="..."> -->
+                  </div>
+                  <div class="col-md-5">
+                    <!-- <p class="text-muted small">
+                      <strong>Note :</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit
+                      nisi sed sollicitudin pellentesque. Nunc posuere purus rhoncus pulvinar aliquam.
+                    </p> -->
+                  </div>
+                  <?php
+                  // Assuming $totalAmount, $paidAmount, and $balance are defined or calculated somewhere in your PHP code
+                  $totalAmount = calculateTotalAmount($invoiceId); // Example function to calculate total amount
+                  $paidAmount = calculatePaidAmount($invoiceId); // Example function to calculate paid amount
+                  $balance = $totalAmount - $paidAmount; // Calculate the balance
+                  ?>
 
-                        // Enable/disable name input based on selected class
-                        document.getElementById('studentClass').addEventListener('change', function () {
-                          var classValue = this.value;
-                          var studentSelect = document.getElementById('studentName');
-
-                          if (classValue === '') {
-                            studentSelect.innerHTML = '<option value="">Select Student</option>';
-                            studentSelect.disabled = true;
-                            document.getElementById('studentName').disabled = true;
-                            return;
-                          }
-
-                          var xhr = new XMLHttpRequest();
-                          xhr.open('GET', 'fetch_students.php?class=' + classValue, true);
-                          xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                              studentSelect.innerHTML = xhr.responseText;
-                              studentSelect.disabled = false;
-                            }
-                          };
-                          xhr.send();
-                        });
-                      </script>
-
-                      <!-- /Section & Class & Name-->
-
-
-
-
-                      <!-- Start Date & Due Date -->
-                      <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                          <label for="validationSelect2">Start Date</label>
-                          <input class="form-control" type="date" name="" id="">
-                          <div class="invalid-feedback"> Please select a section before selecting a class. </div>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                          <label for="validationSelect2">Deadline</label>
-                          <input class="form-control" type="date" name="" id="">
-                          <div class="invalid-feedback"> Please select a section before selecting a class. </div>
-                        </div>
-                      </div>
-                      <!-- /Start Date & Due Date -->
-
-
-
-                      <!-- Type & Folder-->
-                      <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                          <label for="validationSelect27">Type</label>
-                          <select class="form-control select2" id="validationSelect27" required name='folder'>
-                            <option value="">Select Type</option>
-                            <?php
-                            $upload_status = 'allowed';
-                            $query = "SELECT * FROM upload_type WHERE `status` = :status ORDER BY `upload_type`.`type` ASC";
-                            $stmt = $pdo->prepare($query);
-                            $stmt->bindParam(':status', $upload_status, PDO::PARAM_STR);
-                            $stmt->execute();
-                            $upload_status = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                            if (count($upload_status) === 0) {
-                              echo '<p class="text-center">No class added Yet!</p>';
-                            } else {
-                              foreach ($upload_status as $type): ?>
-                                <option value="<?= $type['type']; ?>"> <?= $type['type'] ?></option>
-                              <?php endforeach;
-                            } ?>
-                          </select>
-                          <div class="invalid-feedback"> Please select a class. </div>
-                        </div>
-
-
-
-
-
-
-                        <div class="col-md-6 mb-3">
-                          <label for="validationSelect28">Folder</label>
-
-
-                          <select class="form-control select2" id="validationSelect28" required name='folder'>
-                            <option value="">Select Folder</option>
-                            <?php
-                            $public = 'public';
-                            $permission = 2;
-                            $user = 'User A';
-
-                            $query = "SELECT * FROM folders WHERE `status` = :public AND `permission` = :permission OR `added_by` = :user ORDER BY `name` ASC";
-                            $stmt = $pdo->prepare($query);
-                            $stmt->execute(['public' => $public, 'permission' => $permission, 'user' => $user]);
-                            $folders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                            if (count($folders) === 0) {
-                              echo '<p class="text-center">No class added Yet!</p>';
-                            } else {
-                              foreach ($folders as $folder): ?>
-                                <option value="<?= $folder['name']; ?>"> <?= $folder['name'] ?></option>
-                              <?php endforeach;
-                            } ?>
-                          </select>
-                          <div class="invalid-feedback"> Please select a folder. </div>
-                        </div>
-                      </div>
-                      <!-- /.form-row -->
-
-                      <div class="mb-3">
-                        <p class="mb-2">Permission</p>
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <div class="custom-control custom-radio">
-                              <input type="radio" class="custom-control-input" id="customControlValidation23"
-                                name="permission" checked required value='1'>
-                              <label class="custom-control-label" for="customControlValidation223">Private</label>
-                              <p class="text-muted"> Only I & management will be able to see this. </p>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="custom-control custom-radio mb-3">
-                              <input type="radio" class="custom-control-input" id="customControlValidation34"
-                                name="permission" required value='2'>
-                              <label class="custom-control-label" for="customControlValidation34">Public</label>
-                              <p class="text-muted"> Others will be able to see this.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="form-row">
-                        <div class="col-md-4">
-                          <div class="form-group mb-3">
-                            <p class="mb-3">Available To Teachers</p>
-                            <div class="custom-control custom-switch">
-                              <input type="checkbox" checked class="custom-control-input" id="customSwitch1"
-                                name='students'>
-                              <label class="custom-control-label" for="customSwitch1">Yes</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group mb-3">
-                            <p class="mb-3">Available To Parents</p>
-                            <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch2" name='students'>
-                              <label class="custom-control-label" for="customSwitch2">Yes</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group mb-3">
-                            <p class="mb-3">Available To Students</p>
-                            <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch3" name='students'>
-                              <label class="custom-control-label" for="customSwitch3">Yes</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <!-- upload area -->
-                      <div class="custom-file mb-3">
-                        <input type="file" class="custom-file-input" id="validatedCustomFile" required name="file">
-                        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                        <div class="invalid-feedback">Please select what to upload</div>
-                      </div>
-
-
-                      <button class="btn btn-primary" style="margin-top: 15px; width: 100%;" type="submit">Submit
-                        Upload</button>
-
-                  </form>
-                  <!-- Preview -->
-                  <!-- <div class="dropzone-previews mt-3" id="file-previews"></div> -->
-                  <!-- file preview template -->
-                  <div class="d-none" id="uploadPreviewTemplate">
-                    <div class="card mt-1 mb-0 shadow-none border">
-                      <div class="p-2">
-                        <div class="row align-items-center">
-                          <div class="col-auto">
-                            <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
-                          </div>
-                          <div class="col pl-0">
-                            <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
-                            <p class="mb-0" data-dz-size></p>
-                          </div>
-                          <div class="col-auto">
-                            <!-- Button -->
-                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-                              <i class="dripicons-cross"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
+                  <div class="col-md-5">
+                    <div class="text-right mr-2">
+                      <p class="mb-2 h6">
+                        <span class="text-muted">Invoice Total : </span>
+                        <strong>$
+                          <?= number_format($totalAmount, 2) ?>
+                        </strong>
+                      </p>
+                      <p class="mb-2 h6">
+                        <span class="text-muted">Total Paid : </span>
+                        <strong>$
+                          <?= number_format($paidAmount, 2) ?>
+                        </strong>
+                      </p>
+                      <p class="mb-2 h6">
+                        <span class="text-muted">Total Outstanding: </span>
+                        <span>$
+                          <?= number_format($balance, 2) ?>
+                        </span>
+                      </p>
                     </div>
                   </div>
-                </div> <!-- .card-body -->
-              </div> <!-- .card -->
-            </div> <!-- .col -->
-          </div>
+
+                </div> <!-- /.row -->
+              </div> <!-- /.card-body -->
+            </div> <!-- /.card -->
+          
+          </div> <!-- /.col-12 -->
+        
         </div> <!-- .row -->
       </div> <!-- .container-fluid -->
-      <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="list-group list-group-flush my-n3">
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-box fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Package has uploaded successfull</strong></small>
-                      <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                      <small class="badge badge-pill badge-light text-muted">1m ago</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-download fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Widgets are updated successfull</strong></small>
-                      <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
-                      <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-inbox fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Notifications have been sent</strong></small>
-                      <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                      <small class="badge badge-pill badge-light text-muted">30m ago</small>
-                    </div>
-                  </div> <!-- / .row -->
-                </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-link fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Link was attached to menu</strong></small>
-                      <div class="my-0 text-muted small">New layout has been attached to the menu</div>
-                      <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                    </div>
-                  </div>
-                </div> <!-- / .row -->
-              </div> <!-- / .list-group -->
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+     <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"         aria-hidden="true">         <div class="modal-dialog modal-sm" role="document">           <div class="modal-content">             <div class="modal-header">               <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>               <button type="button" class="close" data-dismiss="modal" aria-label="Close">                 <span aria-hidden="true">&times;</span>               </button>             </div>             <div class="modal-body">               <div class="list-group list-group-flush my-n3">                 <div class="list-group-item bg-transparent">                   <div class="row align-items-center">                      <div class="col text-center">                       <small><strong>You're well up to date</strong></small>                       <div class="my-0 text-muted small">No notifications available</div>                     </div>                   </div>                 </div>               </div> <!-- / .list-group -->             </div>             <div class="modal-footer">               <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal" disabled>Clear All</button>             </div>           </div>         </div>       </div>      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -856,19 +700,18 @@
         </div>
       </div>
     </main> <!-- main -->
-
   </div> <!-- .wrapper -->
-
-  <script>
-    function printDiv(divId) {
-      var content = document.getElementById(divId).innerHTML;
-      var printWindow = window.open('', '_blank');
-      printWindow.document.open();
-      printWindow.document.write('<html><head><title>Print</title></head><body>' + content + '</body></html>');
-      printWindow.document.close();
-      printWindow.print();
-    }
-  </script>
+  
+<script>
+function printDiv(divId) {
+    var content = document.getElementById(divId).innerHTML;
+    var printWindow = window.open('', '_blank');
+    printWindow.document.open();
+    printWindow.document.write('<html><head><title>Print</title></head><body>' + content + '</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+}
+</script>
   <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/moment.min.js"></script>

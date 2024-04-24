@@ -66,18 +66,18 @@ if (isset($_GET['class'])) {
           <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="avatar avatar-sm mt-2">
-              <img src="./assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+              <img src="../assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <div class="text-right" style="margin-right: 10%;">
-              <p style="padding: 0%; margin: 0%;">sirabdul@rinda.ai</p>
-              <strong>Super Admin</strong>
+            <div class=" col-12 text-left" >
+              <p style="padding: 0%; margin: 0%;"><?= $full_name; ?></p>
+              <strong><?= $account_type; ?></strong>
             </div>
             <hr width="80%">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activities</a>
+            <a class="dropdown-item" href="../settings/profile.php">Profile</a>
+            <a class="dropdown-item" href="../settings">Settings</a>
+            <a class="dropdown-item" href="../logout.php">Log out</a>
           </div>
         </li>
       </ul>
@@ -426,14 +426,14 @@ if (isset($_GET['class'])) {
                 <div class="row align-items-center">
                   <div class="col-6 text-center">
                     <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-book fe-32 align-self-center text-white"></i>
+                      <i class="fe fe-shopping-bag fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Library</p>
+                    <p>Shop</p>
                   </div>
                   <div class="col-6 text-center">
                     <a href="../hr/" style="text-decoration: none;">
                       <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                        <i class="fe fe-users fe-32 align-self-center text-auto"></i>
                       </div>
                       <p>HR</p>
                     </a>

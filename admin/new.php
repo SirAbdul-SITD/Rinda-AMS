@@ -15,7 +15,6 @@
   <link href="overpass-font.css" rel="stylesheet">
   <!-- Icons CSS -->
   <link rel="stylesheet" href="../css/feather.css">
-  <link rel="stylesheet" href="../css/dataTables.bootstrap4.css">
   <!-- Date Range Picker CSS -->
   <link rel="stylesheet" href="../css/daterangepicker.css">
   <!-- App CSS -->
@@ -24,6 +23,26 @@
   <style>
     .card {
       border-radius: 8px;
+    }
+
+    @media print {
+      table {
+        /* Reset margins and padding */
+        margin: 0;
+        padding: 0;
+
+        /* Adjust width if necessary */
+        width: 100%;
+      }
+    }
+
+    .suggestion {
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .suggestion:hover {
+      background-color: #f0f0f0;
     }
   </style>
 </head>
@@ -59,7 +78,7 @@
           <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="avatar avatar-sm mt-2">
-              <img src="./assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+              <img src="../assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -109,7 +128,7 @@
                 <a class="nav-link pl-3" href="../fees-type.php"><span class="ml-1 item-text">Fees Type</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link pl-3 text-primary" href="#"><span class="ml-1 item-text">Invoices</span></a>
+                <a class="nav-link pl-3 text-primary" href="index.php"><span class="ml-1 item-text">Invoices</span></a>
               </li>
               <!-- <li class="nav-item">
                 <a class="nav-link pl-3" href="payment-history.php"><span class="ml-1 item-text">Payment
@@ -405,398 +424,383 @@
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
-            <div class="row">
-              <!-- Small table -->
-              <div class="col-md-12 my-4">
-                <div class="row align-items-center my-3">
-                  <div class="col">
-                    <h3 class="page-title">Invoices</h3>
+            <h2 class="page-title">Generate New Invoice</h2>
+            <p class="lead text-muted"></p>
+
+            <div class="col-md-12">
+              <div class="card shadow mb-4">
+
+                <div class="card-body">
+                  <div>
+
+
                   </div>
-                  <div class="col-auto">
-                    <a href="new.php">
-                    <button type="button" class="btn  btn-primary"><span
-                        class="fe fe-plus fe-16 mr-3"></span>New</button></a>
+                  <form action="upload-item.php" method="POST" class=" needs-validation" id="tinydash-dropzone"
+                    novalidate>
+
+                    <div class="input-space">
+
+                      <!-- Section & Class -->
+                      <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                          <label for="validationSelect2">Section</label>
+                          <select class="form-control select2" id="validationSelect2" name='section'>
+                            <option value="">Select Section</option>
+                            <?php
+                            $query = "SELECT * FROM sections ORDER BY `sections`.`section` ASC";
+                            $stmt = $pdo->prepare($query);
+                            $stmt->execute();
+                            $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            if (count($sections) === 0) {
+                              echo '<p class="text-center">None added Yet!</p>';
+                            } else {
+                              foreach ($sections as $section): ?>
+                                <option value="<?= $section['section']; ?>"> <?= $section['section'] ?></option>
+                              <?php endforeach;
+                            } ?>
+                          </select>
+                          <div class="invalid-feedback"> Please select a section before selecting a class. </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <label for="studentClass">Class</label>
+                          <select class="form-control select2" id="studentClass" name='class' disabled>
+                            <option value="">Select Class</option>
+                          </select>
+                          <div class="invalid-feedback"> Please select a class before selecting a student. </div>
+                        </div>
+                      </div>
+                      <!-- /Section & Class -->
+
+                      <div class="form-group mb-3">
+                        <label for="studentName">Student Name</label>
+                        <select class="form-control select2" id="studentName" name='name' disabled>
+                            <option value="">Select Student</option>
+                          </select>
+                        <div class="valid-feedback"> Looks good! </div>
+                        <div class="invalid-feedback"> Please select a valid student name. </div>
+                      </div>
+
+                      <script>
+                        // Enable/disable class select based on selected section
+                        document.getElementById('validationSelect2').addEventListener('change', function () {
+                          var sectionValue = this.value;
+                          var classSelect = document.getElementById('studentClass');
+                          var studentSelect = document.getElementById('studentName');
+
+               
+                            studentSelect.innerHTML = '<option value="">Select Student</option>';
+                            studentSelect.disabled = true;
+                            document.getElementById('studentName').disabled = true;
+                         
+
+                          if (sectionValue === '') {
+                            classSelect.innerHTML = '<option value="">Select Class</option>';
+                            classSelect.disabled = true;
+                            document.getElementById('address-wpalaceholder').disabled = true;
+                            return;
+                          }
+
+                          var xhr = new XMLHttpRequest();
+                          xhr.open('GET', 'fetch_classes.php?section=' + sectionValue, true);
+                          xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                              classSelect.innerHTML = xhr.responseText;
+                              classSelect.disabled = false;
+                            }
+                          };
+                          xhr.send();
+                        });
+
+                        // Enable/disable name input based on selected class
+                        document.getElementById('studentClass').addEventListener('change', function () {
+                          var classValue = this.value;
+                          var studentSelect = document.getElementById('studentName');
+
+                          if (classValue === '') {
+                            studentSelect.innerHTML = '<option value="">Select Student</option>';
+                            studentSelect.disabled = true;
+                            document.getElementById('studentName').disabled = true;
+                            return;
+                          }
+
+                          var xhr = new XMLHttpRequest();
+                          xhr.open('GET', 'fetch_students.php?class=' + classValue, true);
+                          xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                              studentSelect.innerHTML = xhr.responseText;
+                              studentSelect.disabled = false;
+                            }
+                          };
+                          xhr.send();
+                        });
+                      </script>
+
+                      <!-- /Section & Class & Name-->
+
+
+
+
+                      <!-- Start Date & Due Date -->
+                      <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                          <label for="validationSelect2">Start Date</label>
+                          <input class="form-control" type="date" name="" id="">
+                          <div class="invalid-feedback"> Please select a section before selecting a class. </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <label for="validationSelect2">Deadline</label>
+                          <input class="form-control" type="date" name="" id="">
+                          <div class="invalid-feedback"> Please select a section before selecting a class. </div>
+                        </div>
+                      </div>
+                      <!-- /Start Date & Due Date -->
+
+
+
+                      <!-- Type & Folder-->
+                      <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                          <label for="validationSelect27">Type</label>
+                          <select class="form-control select2" id="validationSelect27" required name='folder'>
+                            <option value="">Select Type</option>
+                            <?php
+                            $upload_status = 'allowed';
+                            $query = "SELECT * FROM upload_type WHERE `status` = :status ORDER BY `upload_type`.`type` ASC";
+                            $stmt = $pdo->prepare($query);
+                            $stmt->bindParam(':status', $upload_status, PDO::PARAM_STR);
+                            $stmt->execute();
+                            $upload_status = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            if (count($upload_status) === 0) {
+                              echo '<p class="text-center">No class added Yet!</p>';
+                            } else {
+                              foreach ($upload_status as $type): ?>
+                                <option value="<?= $type['type']; ?>"> <?= $type['type'] ?></option>
+                              <?php endforeach;
+                            } ?>
+                          </select>
+                          <div class="invalid-feedback"> Please select a class. </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="col-md-6 mb-3">
+                          <label for="validationSelect28">Folder</label>
+
+
+                          <select class="form-control select2" id="validationSelect28" required name='folder'>
+                            <option value="">Select Folder</option>
+                            <?php
+                            $public = 'public';
+                            $permission = 2;
+                            $user = 'User A';
+
+                            $query = "SELECT * FROM folders WHERE `status` = :public AND `permission` = :permission OR `added_by` = :user ORDER BY `name` ASC";
+                            $stmt = $pdo->prepare($query);
+                            $stmt->execute(['public' => $public, 'permission' => $permission, 'user' => $user]);
+                            $folders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            if (count($folders) === 0) {
+                              echo '<p class="text-center">No class added Yet!</p>';
+                            } else {
+                              foreach ($folders as $folder): ?>
+                                <option value="<?= $folder['name']; ?>"> <?= $folder['name'] ?></option>
+                              <?php endforeach;
+                            } ?>
+                          </select>
+                          <div class="invalid-feedback"> Please select a folder. </div>
+                        </div>
+                      </div>
+                      <!-- /.form-row -->
+
+                      <div class="mb-3">
+                        <p class="mb-2">Permission</p>
+                        <div class="form-row">
+                          <div class="col-md-6">
+                            <div class="custom-control custom-radio">
+                              <input type="radio" class="custom-control-input" id="customControlValidation23"
+                                name="permission" checked required value='1'>
+                              <label class="custom-control-label" for="customControlValidation223">Private</label>
+                              <p class="text-muted"> Only I & management will be able to see this. </p>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="custom-control custom-radio mb-3">
+                              <input type="radio" class="custom-control-input" id="customControlValidation34"
+                                name="permission" required value='2'>
+                              <label class="custom-control-label" for="customControlValidation34">Public</label>
+                              <p class="text-muted"> Others will be able to see this.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="col-md-4">
+                          <div class="form-group mb-3">
+                            <p class="mb-3">Available To Teachers</p>
+                            <div class="custom-control custom-switch">
+                              <input type="checkbox" checked class="custom-control-input" id="customSwitch1"
+                                name='students'>
+                              <label class="custom-control-label" for="customSwitch1">Yes</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group mb-3">
+                            <p class="mb-3">Available To Parents</p>
+                            <div class="custom-control custom-switch">
+                              <input type="checkbox" class="custom-control-input" id="customSwitch2" name='students'>
+                              <label class="custom-control-label" for="customSwitch2">Yes</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group mb-3">
+                            <p class="mb-3">Available To Students</p>
+                            <div class="custom-control custom-switch">
+                              <input type="checkbox" class="custom-control-input" id="customSwitch3" name='students'>
+                              <label class="custom-control-label" for="customSwitch3">Yes</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <!-- upload area -->
+                      <div class="custom-file mb-3">
+                        <input type="file" class="custom-file-input" id="validatedCustomFile" required name="file">
+                        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        <div class="invalid-feedback">Please select what to upload</div>
+                      </div>
+
+
+                      <button class="btn btn-primary" style="margin-top: 15px; width: 100%;" type="submit">Submit
+                        Upload</button>
+
+                  </form>
+                  <!-- Preview -->
+                  <!-- <div class="dropzone-previews mt-3" id="file-previews"></div> -->
+                  <!-- file preview template -->
+                  <div class="d-none" id="uploadPreviewTemplate">
+                    <div class="card mt-1 mb-0 shadow-none border">
+                      <div class="p-2">
+                        <div class="row align-items-center">
+                          <div class="col-auto">
+                            <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
+                          </div>
+                          <div class="col pl-0">
+                            <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+                            <p class="mb-0" data-dz-size></p>
+                          </div>
+                          <div class="col-auto">
+                            <!-- Button -->
+                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                              <i class="dripicons-cross"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                </div> <!-- .card-body -->
+              </div> <!-- .card -->
+            </div> <!-- .col -->
+          </div>
+        </div> <!-- .row -->
+      </div> <!-- .container-fluid -->
+     <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"         aria-hidden="true">         <div class="modal-dialog modal-sm" role="document">           <div class="modal-content">             <div class="modal-header">               <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>               <button type="button" class="close" data-dismiss="modal" aria-label="Close">                 <span aria-hidden="true">&times;</span>               </button>             </div>             <div class="modal-body">               <div class="list-group list-group-flush my-n3">                 <div class="list-group-item bg-transparent">                   <div class="row align-items-center">                      <div class="col text-center">                       <small><strong>You're well up to date</strong></small>                       <div class="my-0 text-muted small">No notifications available</div>                     </div>                   </div>                 </div>               </div> <!-- / .list-group -->             </div>             <div class="modal-footer">               <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal" disabled>Clear All</button>             </div>           </div>         </div>       </div>      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-success justify-content-center">
+                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Control area</p>
                 </div>
-                <div class="row">
-                  <!-- Striped rows -->
-                  <div class="col-md-12 my-4">
-                    <div class="card shadow">
-                      <div class="card-body">
-                        <!-- table -->
-                        <?php
-                        // Include your database connection file
-                        include "db_connection.php"; // Replace "db_connection.php" with the actual filename
-                        
-                        // Fetch invoice data from the database
-                        $stmt = $pdo->query("SELECT * FROM Invoice");
-                        $invoices = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                        // Function to calculate total amount for an invoice
-                        function calculateTotalAmount($invoiceId, $pdo)
-                        {
-                          // Fetch total amount for the given invoice ID
-                          $stmt = $pdo->prepare("SELECT SUM(amount) FROM Invoice_Item WHERE invoice_id = ?");
-                          $stmt->execute([$invoiceId]);
-                          $totalAmount = $stmt->fetchColumn();
-
-                          return $totalAmount;
-                        }
-
-                        // Function to calculate paid amount for an invoice
-                        function calculatePaidAmount($invoiceId, $pdo)
-                        {
-                          // Fetch paid amount for the given invoice ID
-                          $stmt = $pdo->prepare("SELECT SUM(amount) FROM Invoice_Item WHERE invoice_id = ? AND status = 'Paid'");
-                          $stmt->execute([$invoiceId]);
-                          $paidAmount = $stmt->fetchColumn();
-
-                          return $paidAmount;
-                        }
-
-                        ?>
-
-                        <table class="table datatables" id="dataTable-1">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Invoice</th>
-                              <th>Student</th>
-                              <th>Class</th>
-                              <th>Generated</th>
-                              <th>Total</th>
-                              <th>Paid</th>
-                              <th>Balance</th>
-                              <th>Due</th>
-                              <th>Status</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php foreach ($invoices as $index => $invoice): ?>
-                              <tr>
-                                <td>
-                                  <?= $index + 1 ?>
-                                </td>
-                                <td>
-                                  <?= $invoice['invoice_number'] ?>
-                                </td>
-                                <td>
-                                  <?= $invoice['student_name'] ?>
-                                </td>
-                                <td>
-                                  <?= $invoice['class'] ?>
-                                </td>
-                                <td>
-                                  <?= $invoice['invoice_date'] ?>
-                                </td>
-                                <td>$
-                                  <?= number_format(calculateTotalAmount($invoice['id'], $pdo), 2) ?>
-                                </td>
-
-                                <td>$
-                                  <?= number_format(calculatePaidAmount($invoice['id'], $pdo), 2) ?>
-                                </td>
-                                <td>$
-                                  <?= number_format(calculateTotalAmount($invoice['id'], $pdo) - calculatePaidAmount($invoice['id'], $pdo), 2) ?>
-                                </td>
-                                <td>
-                                  <?= $invoice['due_date'] ?>
-                                </td>
-                                <td>
-                                  <?php
-                                  $totalAmount = calculateTotalAmount($invoice['id'], $pdo);
-                                  $paidAmount = calculatePaidAmount($invoice['id'], $pdo);
-                                  $balance = $totalAmount - $paidAmount;
-
-                                  if ($balance <= 0) {
-                                    // If the balance is zero or negative, set status to Paid
-                                    $status = 'Paid';
-                                    $badgeClass = 'badge-success';
-                                  } elseif ($balance > 0 && $invoice['due_date'] < date('Y-m-d')) {
-                                    // If the balance is positive and due date is past, set status to Outstanding
-                                    $status = 'Outstanding';
-                                    $badgeClass = 'badge-danger';
-                                  } else {
-                                    // If the balance is positive and due date is not past, set status to Pending
-                                    $status = 'Pending';
-                                    $badgeClass = 'badge-warning';
-                                  }
-                                  ?>
-                                  <span class="badge <?= $badgeClass ?>"><?= $status ?></span>
-                                </td>
-
-
-                                <td>
-                                  <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                  </button>
-                                  <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="invoice.php?id=<?= $invoice['id'] ?>">View</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Mark as Paid</a>
-                                    <a class="dropdown-item" href="#">Send Reminder</a>
-                                  </div>
-                                </td>
-                              </tr>
-                            <?php endforeach; ?>
-                          </tbody>
-                        </table>
-
-                      </div>
-                    </div>
-                  </div> <!-- simple table -->
-                </div> <!-- end section -->
-              </div> <!-- .col-12 -->
-            </div> <!-- .row -->
-          </div> <!-- .container-fluid -->
-          <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog"
-            aria-labelledby="defaultModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Admission</p>
                 </div>
-                <div class="modal-body">
-                  <div class="list-group list-group-flush my-n3">
-                    <div class="list-group-item bg-transparent">
-                      <div class="row align-items-center">
-                        <div class="col-auto">
-                          <span class="fe fe-box fe-24"></span>
-                        </div>
-                        <div class="col">
-                          <small><strong>Package has uploaded successfull</strong></small>
-                          <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                          <small class="badge badge-pill badge-light text-muted">1m ago</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="list-group-item bg-transparent">
-                      <div class="row align-items-center">
-                        <div class="col-auto">
-                          <span class="fe fe-download fe-24"></span>
-                        </div>
-                        <div class="col">
-                          <small><strong>Widgets are updated successfull</strong></small>
-                          <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
-                          <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="list-group-item bg-transparent">
-                      <div class="row align-items-center">
-                        <div class="col-auto">
-                          <span class="fe fe-inbox fe-24"></span>
-                        </div>
-                        <div class="col">
-                          <small><strong>Notifications have been sent</strong></small>
-                          <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                          <small class="badge badge-pill badge-light text-muted">30m ago</small>
-                        </div>
-                      </div> <!-- / .row -->
-                    </div>
-                    <div class="list-group-item bg-transparent">
-                      <div class="row align-items-center">
-                        <div class="col-auto">
-                          <span class="fe fe-link fe-24"></span>
-                        </div>
-                        <div class="col">
-                          <small><strong>Link was attached to menu</strong></small>
-                          <div class="my-0 text-muted small">New layout has been attached to the menu</div>
-                          <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                        </div>
-                      </div>
-                    </div> <!-- / .row -->
-                  </div> <!-- / .list-group -->
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>E-Learning</p>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Virtual Meetings</p>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Library Management</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Human Resources</p>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Assessments</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Settings</p>
                 </div>
               </div>
             </div>
           </div>
-          <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-            aria-labelledby="defaultModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body px-5">
-                  <div class="row align-items-center">
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-success justify-content-center">
-                        <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Control area</p>
-                    </div>
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-activity fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Admission</p>
-                    </div>
-                  </div>
-                  <div class="row align-items-center">
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>E-Learning</p>
-                    </div>
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Virtual Meetings</p>
-                    </div>
-                  </div>
-                  <div class="row align-items-center">
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Library Management</p>
-                    </div>
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Human Resources</p>
-                    </div>
-                  </div>
-                  <div class="row align-items-center">
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Assessments</p>
-                    </div>
-                    <div class="col-6 text-center">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Settings</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-    </main> <!-- main -->
-  </div> <!-- .wrapper -->
-
-
-  <!-- new Modal-->
-  <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="newModalLabel">Add New Fee Type</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="newForm">
-            <div class="form-group">
-              <label for="fee-name" class="col-form-label">Fees Type:</label>
-              <input type="text" class="form-control" id="fee-name" required>
-            </div>
-            <div class="form-group">
-              <label for="fee-amount" class="col-form-label">Amount:</label>
-              <input type="number" class="form-control" id="fee-amount" required>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="custom-subject">Duration</label>
-                <select class="custom-select" id="custom-subject" name="subject" required>
-                  <!-- Options for subject -->
-                  <option selected disabled>Select</option>
-                  <option value="1">One-time Payment</option>
-                  <option value="2">Weekly</option>
-                  <option value="3">Monthly</option>
-                  <option value="4">Per Term</option>
-                  <option value="5">Per session</option>
-                </select>
-              </div>
-
-              <div class="form-group col-md-6">
-                <label for="custom-class">Class <span><small>optional</small></span></label>
-                <select class="custom-select" id="custom-class" name="class" required>
-                  <!-- Options for class -->
-                  <option selected disabled>Select</option>
-                  <option value="Grade 1">Grade 1</option>
-                  <option value="Grade 2">Grade 2</option>
-                  <option value="Grade 3">Grade 3</option>
-                  <option value="Grade 4">Grade 4</option>
-                  <option value="Grade 5">Grade 5</option>
-                  <option value="Grade 6">Grade 6</option>
-                  <option value="Grade 7">Grade 7</option>
-                  <option value="Grade 8">Grade 8</option>
-                  <option value="Grade 9">Grade 9</option>
-                  <option value="Grade 10">Grade 10</option>
-                  <option value="Grade 11">Grade 11</option>
-                  <option value="Grade 12">Grade 12</option>
-                </select>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn mb-2 btn-primary w-100" id="saveBtn">Save
-            Changes</button>
         </div>
       </div>
-    </div>
-  </div>
+    </main> <!-- main -->
 
+  </div> <!-- .wrapper -->
 
   <script>
-    $(document).ready(function () {
-
-      // Event listener for saving changes
-      $('#saveBtn').on('click', function () {
-
-        var newTitle = $('#fee-name').val();
-        var newAmount = $('#fee-amount').val();
-        var newClass = $('#custom-class').val();
-        var newSubject = $('#custom-subject').val();
-
-        // Perform AJAX request to update fee information in the database
-        $.ajax({
-          url: 'add-fee.php',
-          type: 'POST',
-          data: {
-            title: newTitle,
-            class: newClass,
-            subject: newSubject
-          },
-          success: function (response) {
-            // Handle success
-            console.log(response);
-            // Optionally update the UI to reflect the changes
-            // For example, update the title of the fee row
-            $('#newModal').modal('hide');
-          },
-          error: function (xhr, status, error) {
-            // Handle error
-            console.error(xhr.responseText);
-          }
-        });
-      });
-    });
+    function printDiv(divId) {
+      var content = document.getElementById(divId).innerHTML;
+      var printWindow = window.open('', '_blank');
+      printWindow.document.open();
+      printWindow.document.write('<html><head><title>Print</title></head><body>' + content + '</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    }
   </script>
-
-  <!-- end new -->
-
   <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/moment.min.js"></script>
@@ -806,18 +810,6 @@
   <script src='../js/jquery.stickOnScroll.js'></script>
   <script src="../js/tinycolor-min.js"></script>
   <script src="../js/config.js"></script>
-  <script src='../js/jquery.dataTables.min.js'></script>
-  <script src='../js/dataTables.bootstrap4.min.js'></script>
-  <script>
-    $('#dataTable-1').DataTable(
-      {
-        autoWidth: true,
-        "lengthMenu": [
-          [16, 32, 64, -1],
-          [16, 32, 64, "All"]
-        ]
-      });
-  </script>
   <script src="../js/apps.js"></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>

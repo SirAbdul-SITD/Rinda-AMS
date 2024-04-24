@@ -1,7 +1,7 @@
 <?php
 
 // Include your database connection file (e.g., settings.php)
-require('settings.php');
+require('../settings.php');
 
 // Check if form data is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

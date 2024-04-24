@@ -107,14 +107,18 @@
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <div class="text-right" style="margin-right: 10%;">
-              <p style="padding: 0%; margin: 0%;">sirabdul@strad.africa</p>
-              <strong>Super Admin</strong>
+            <div class=" col-12 text-left">
+              <p style="padding: 0%; margin: 0%;">
+                <?= $full_name; ?>
+              </p>
+              <strong>
+                <?= $account_type; ?>
+              </strong>
             </div>
             <hr width="80%">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activities</a>
+            <a class="dropdown-item" href="../settings/profile.php">Profile</a>
+            <a class="dropdown-item" href="../settings">Settings</a>
+            <a class="dropdown-item" href="../logout.php">Log out</a>
           </div>
         </li>
       </ul>
@@ -137,105 +141,76 @@
             </svg>
           </a>
         </div>
+
         <p class="text-muted nav-heading mt-4 mb-1">
-          <span>Staffs</span>
+          <span>Questions</span>
         </p>
         <ul class="navbar-nav flex-fill w-100 mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="index.php">
+            <a class="nav-link" href="question-bank.php">
               <i class="fe fe-codesandbox fe-16"></i>
-              <span class="ml-3 item-text">Staffs Directory</span>
+              <span class="ml-3 item-text">Bank</span>
               </i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="department.php">
-              <i class="fe fe-users fe-16"></i>
-              <span class="ml-3 item-text">Department</span>
+            <a class="nav-link" href="generate.php">
+              <i class="fe fe-sliders fe-16"></i>
+              <span class="ml-3 item-text">Generate</span>
               </i>
             </a>
           </li>
+        </ul>
+
+        <!-- Academics -->
+        <p class="text-muted nav-heading mt-4 mb-1">
+          <span>Assessment</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
           <li class="nav-item active">
             <a class="nav-link text-primary" href="#">
-              <i class="fe fe-book fe-16"></i>
-              <span class="ml-3 item-text">Designation</span>
+              <i class="fe fe-list fe-16"></i>
+              <span class="ml-3 item-text">Types</span>
               </i>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="subjects.php">
+              <i class="fe fe-check-circle fe-16"></i>
+              <span class="ml-3 item-text">Mark by subject</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="students.php">
+              <i class="fe fe-user-check fe-16"></i>
+              <span class="ml-3 item-text">Mark by student</span>
+              </i>
+            </a>
+          </li>
+        </ul>
 
+        <!-- Academics -->
+        <p class="text-muted nav-heading mt-4 mb-1">
+          <span>Results</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="add-remarks.php">
+              <i class="fe fe-edit-3 fe-16"></i>
+              <span class="ml-3 item-text">Add remarks</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="compile.php">
+              <i class="fe fe-tool fe-16"></i>
+              <span class="ml-3 item-text">Compile results</span>
+              </i>
+            </a>
+          </li>
+        </ul>
 
-
-
-
-          <!-- Leave -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Leave</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="leave-application.php">
-                <i class="fe fe-home fe-16"></i>
-                <span class="ml-3 item-text">Leave Application</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="leave-category.php">
-                <i class="fe fe-copy fe-16"></i>
-                <span class="ml-3 item-text">Leave Category</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="approved-leave.php">
-                <i class="fe fe-server fe-16"></i>
-                <span class="ml-3 item-text">Approved Leave</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pending-leave.php">
-                <i class="fe fe-fast-forward fe-16"></i>
-                <span class="ml-3 item-text">Pending Requests</span>
-                </i>
-              </a>
-            </li>
-          </ul>
-
-          <!-- Extras -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Extras</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-home fe-16"></i>
-                <span class="ml-3 item-text">Attendance</span>
-                </i>
-              </a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-copy fe-16"></i>
-                <span class="ml-3 item-text">Message</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-server fe-16"></i>
-                <span class="ml-3 item-text">Payroll</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fe fe-fast-forward fe-16"></i>
-                <span class="ml-3 item-text">Penalties</span>
-                </i>
-              </a>
-            </li>
-          </ul>
       </nav>
     </aside>
     <main role="main" class="main-content">
@@ -246,7 +221,10 @@
             <div class="col-md-12 my-4">
               <div class="row align-items-center my-3">
                 <div class="col">
-                  <h2 class="page-title">Assessment Types</h2>
+                  <h2 class="h4 mb-1">Assessment types</h2>
+                  <p class="mb-3">Discover and Manage Assessment Types -
+                    Here, you can explore existing assessment types, add new ones, and set their duration and total
+                    marks."</p>
                 </div>
                 <div class="col-auto">
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModel"><span
@@ -302,7 +280,8 @@
                                   data-assessment_type-id="<?= $assessment_type['assessment_id'] ?>">
                                   <?= $assessment_type['assessment_type'] ?>
                                 </strong>
-                                <input type="hidden" class="assessment_type-id" value="<?= $assessment_type['assessment_id'] ?>">
+                                <input type="hidden" class="assessment_type-id"
+                                  value="<?= $assessment_type['assessment_id'] ?>">
                                 <input type="hidden" class="assessment_type-class-id"
                                   value="<?= $assessment_type['class_id'] ?>">
                               </p>
@@ -391,7 +370,7 @@
                   <div class="form-group col-6">
                     <label for="deadline" class="col-form-label">Deadline: *</label>
                     <select id="deadline" class="form-control select2 required" required name="deadline" required>
-                    <?php
+                      <?php
                       $weeks = array('1 week', '2 week', '3 week', '4 week', '5 week', '6 week', '7 week', '8 week', '9 week', '10 week', '11 week', '12 week');
                       echo "<option value=''>Select Start Week</option>";
                       foreach ($weeks as $week):
@@ -554,71 +533,25 @@
         <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5> <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>
             <div class="modal-body">
               <div class="list-group list-group-flush my-n3">
                 <div class="list-group-item bg-transparent">
                   <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-box fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Package has uploaded successful</strong></small>
-                      <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                      <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                    <div class="col text-center"> <small><strong>You're well up to date</strong></small>
+                      <div class="my-0 text-muted small">No notifications available</div>
                     </div>
                   </div>
                 </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-download fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Widgets are updated successful</strong></small>
-                      <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
-                      <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-inbox fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Notifications have been sent</strong></small>
-                      <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                      <small class="badge badge-pill badge-light text-muted">30m ago</small>
-                    </div>
-                  </div> <!-- / .row -->
-                </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-link fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Link was attached to menu</strong></small>
-                      <div class="my-0 text-muted small">New layout has been attached to the menu</div>
-                      <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                    </div>
-                  </div>
-                </div> <!-- / .row -->
               </div> <!-- / .list-group -->
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
-            </div>
+            <div class="modal-footer"> <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal"
+                disabled>Clear All</button> </div>
           </div>
         </div>
       </div>
-
-
       <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -632,62 +565,74 @@
             <div class="modal-body px-5">
               <div class="row align-items-center">
                 <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Dashboard</p>
+                  <a href="#" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Dashboard</p>
+                  </a>
                 </div>
                 <div class="col-6 text-center">
-                  <a href="../academics/" target="_blank" style="text-decoration: none;">
+                  <a href="../academics/" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>Academics</p>
+                    <p class="text-primary">Academics</p>
                   </a>
                 </div>
               </div>
               <div class="row align-items-center">
                 <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-trello fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>E-Learning</p>
-                </div>
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-mail fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Messages</p>
-                </div>
-              </div>
-              <div class="row align-items-center">
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-book fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Library</p>
-                </div>
-                <div class="col-6 text-center">
-                  <a href="#" style="text-decoration: none;" class="text-success">
-                    <div class="squircle bg-success justify-content-center">
-                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                  <a href="#" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                     </div>
-                    <p>HR</p>
+                    <p class="text-primary">E-Learning</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-mail fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Messages</p>
                   </a>
                 </div>
               </div>
               <div class="row align-items-center">
                 <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Assessments</p>
+                  <a href="../shop" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-shopping-bag fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Shop</p>
+                  </a>
                 </div>
                 <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Settings</p>
+                  <a href="../hr/" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center text-white">
+                      <i class="fe fe-users fe-32 align-self-center"></i>
+                    </div>
+                    <p class="text-primary">HR</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="../assessments" style="text-decoration: none;">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-success">Assessments</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="../settings" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Settings</p>
+                  </a>
                 </div>
               </div>
             </div>
@@ -846,12 +791,12 @@
         $.ajax({
           url: 'add-type.php',
           type: 'POST',
-          data: { 
+          data: {
             name: Title,
             start: Start,
-            end: End, 
+            end: End,
             class_id: ClassId,
-            marks:  Marks
+            marks: Marks
           },
           success: function (response) {
             // Parse the JSON response
@@ -885,19 +830,19 @@
           url: 'update-type.php',
           type: 'POST',
           data: {
-            id: Id, 
+            id: Id,
             name: newTitle,
             start: newStart,
-            end: newEnd, 
+            end: newEnd,
             class_id: newClassId,
-            marks:  newMarks
+            marks: newMarks
           },
           success: function (response) {
             // Parse the JSON response
             var responseData = JSON.parse(response);
             displayPopup(responseData.message, responseData.success);
             if (responseData.success == true) {
-              $('#editModel').modal('hide'); 
+              $('#editModel').modal('hide');
               setTimeout(function () {
                 location.reload();
               }, 2000);

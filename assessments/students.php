@@ -59,18 +59,22 @@
           <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="avatar avatar-sm mt-2">
-              <img src="./assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+              <img src="../assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <div class="text-right" style="margin-right: 10%;">
-              <p style="padding: 0%; margin: 0%;">sirabdul@rinda.ai</p>
-              <strong>Super Admin</strong>
+            <div class=" col-12 text-left">
+              <p style="padding: 0%; margin: 0%;">
+                <?= $full_name; ?>
+              </p>
+              <strong>
+                <?= $account_type; ?>
+              </strong>
             </div>
             <hr width="80%">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activities</a>
+            <a class="dropdown-item" href="../settings/profile.php">Profile</a>
+            <a class="dropdown-item" href="../settings">Settings</a>
+            <a class="dropdown-item" href="../logout.php">Log out</a>
           </div>
         </li>
       </ul>
@@ -93,124 +97,76 @@
             </svg>
           </a>
         </div>
-        <!-- <div class="btn-box w-100 mt-4 mb-1">
-          <a href="../" class="btn mb-2 btn-primary btn-lg btn-block">
-            <i class="fe fe-arrow-left fe-12 mx-2"></i><span class="small">Back To Dashboard</span>
-          </a>
-        </div> -->
-        <!-- Dashboard -->
+
         <p class="text-muted nav-heading mt-4 mb-1">
-          <span>Dashboard</span>
+          <span>Questions</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="question-bank.php">
+              <i class="fe fe-codesandbox fe-16"></i>
+              <span class="ml-3 item-text">Bank</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="generate.php">
+              <i class="fe fe-sliders fe-16"></i>
+              <span class="ml-3 item-text">Generate</span>
+              </i>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Academics -->
+        <p class="text-muted nav-heading mt-4 mb-1">
+          <span>Assessment</span>
         </p>
         <ul class="navbar-nav flex-fill w-100 mb-2">
           <li class="nav-item">
             <a class="nav-link" href="index.php">
-              <i class="fe fe-codesandbox fe-16"></i>
-              <span class="ml-3 item-text">Dashboard</span>
+              <i class="fe fe-list fe-16"></i>
+              <span class="ml-3 item-text">Types</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="subjects.php">
+              <i class="fe fe-check-circle fe-16"></i>
+              <span class="ml-3 item-text">Mark by subject</span>
               </i>
             </a>
           </li>
           <li class="nav-item active">
             <a class="nav-link text-primary" href="#">
-              <i class="fe fe-users fe-16"></i>
-              <span class="ml-3 item-text">Students</span>
+              <i class="fe fe-user-check fe-16"></i>
+              <span class="ml-3 item-text">Mark by student</span>
               </i>
             </a>
           </li>
+        </ul>
 
+        <!-- Academics -->
+        <p class="text-muted nav-heading mt-4 mb-1">
+          <span>Results</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="add-remarks.php">
+              <i class="fe fe-edit-3 fe-16"></i>
+              <span class="ml-3 item-text">Add remarks</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="compile.php">
+              <i class="fe fe-tool fe-16"></i>
+              <span class="ml-3 item-text">Compile results</span>
+              </i>
+            </a>
+          </li>
+        </ul>
 
-
-          <!-- Acadmics -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Academics</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="classes.php">
-                <i class="fe fe-home fe-16"></i>
-                <span class="ml-3 item-text">Class</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="section.php">
-                <i class="fe fe-copy fe-16"></i>
-                <span class="ml-3 item-text">Section</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="subjects.php">
-                <i class="fe fe-server fe-16"></i>
-                <span class="ml-3 item-text">Subject</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="class_management.php">
-                <i class="fe fe-fast-forward fe-16"></i>
-                <span class="ml-3 item-text">Class Management</span>
-                </i>
-              </a>
-            </li>
-          </ul>
-          <!-- Admission -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Admission</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="admit_student.php">
-                <i class="fe fe-user-plus fe-16"></i>
-                <span class="ml-3 item-text">Admit New Student</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="applications.php">
-                <i class="fe fe-file-plus fe-16"></i>
-                <span class="ml-3 item-text">Student Applications</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="admissions.php">
-                <i class="fe fe-file-text fe-16"></i>
-                <span class="ml-3 item-text">Admitted Students</span>
-                </i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="parents.php">
-                <i class="fe fe-zoom-in fe-16"></i>
-                <span class="ml-3 item-text">Manage Student Parents</span>
-                </i>
-              </a>
-            </li>
-
-          </ul>
-
-          <!-- Extra -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Extra</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="disable-student.php">
-                <i class="fe fe-slash fe-16"></i>
-                <span class="ml-3 item-text">Disable Students</span>
-                </i>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="export-data.php">
-                <i class="fe fe-printer fe-16"></i>
-                <span class="ml-3 item-text">Students Export</span>
-                </i>
-              </a>
-            </li>
-          </ul>
       </nav>
     </aside>
     <main role="main" class="main-content">
@@ -235,9 +191,6 @@
                           <th>Admission No.</th>
                           <th>Name</th>
                           <th>Class</th>
-                          <th>Gender</th>
-                          <th>Religion</th>
-                          <th>Address</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -279,31 +232,14 @@
                             <td>
                               <?= $student['class'] ?>
                             </td>
+                           
                             <td>
-                              <?= $student['gender'] ?>
-                            </td>
-                            <td>
-                              <?= $student['religion'] ?>
-                            </td>
-                            <td>
-                              <?= $student['address'] ?>
-                            </td>
-                            <td>
-                              <button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="text-muted sr-only">Action</span>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-right">
-                                <form action="student.php" method="post">
-                                  <input type="hidden" name="admission_no" value="<?= $student['admission_no'] ?>">
-                                  <button type="submit" class="dropdown-item">View</button>
+                                <form action="student-assessment.php" method="POST">
+                                  <input type="hidden" name="student" value="<?= $student['id']; ?>">
+                                  <button type="submit" class="btn  w-100 btn-primary"><i class="fe fe-user-check fe-16"></i> Process student assessment</button>
                                 </form>
-                                <form action="edit_student.php" method="post">
-                                <input type="hidden" name="admission_no" value="<?= $student['admission_no'] ?>">
-                                  <button type="submit" class="dropdown-item">Edit</button>
-                                </form>
-                              </div>
-                            </td>
+                               
+                              </td>
                           </tr>
                         <?php endforeach; ?>
 
@@ -324,145 +260,113 @@
         <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5> <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>
             <div class="modal-body">
               <div class="list-group list-group-flush my-n3">
                 <div class="list-group-item bg-transparent">
                   <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-box fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Package has uploaded successfull</strong></small>
-                      <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                      <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                    <div class="col text-center"> <small><strong>You're well up to date</strong></small>
+                      <div class="my-0 text-muted small">No notifications available</div>
                     </div>
                   </div>
                 </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-download fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Widgets are updated successfull</strong></small>
-                      <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
-                      <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-inbox fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Notifications have been sent</strong></small>
-                      <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                      <small class="badge badge-pill badge-light text-muted">30m ago</small>
-                    </div>
-                  </div> <!-- / .row -->
-                </div>
-                <div class="list-group-item bg-transparent">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="fe fe-link fe-24"></span>
-                    </div>
-                    <div class="col">
-                      <small><strong>Link was attached to menu</strong></small>
-                      <div class="my-0 text-muted small">New layout has been attached to the menu</div>
-                      <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                    </div>
-                  </div>
-                </div> <!-- / .row -->
               </div> <!-- / .list-group -->
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+            <div class="modal-footer"> <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal"
+                disabled>Clear All</button> </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Dashboard</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="../academics/" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Academics</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-trello fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">E-Learning</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-mail fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Messages</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="../shop" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-shopping-bag fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Shop</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="../hr/" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center text-white">
+                      <i class="fe fe-users fe-32 align-self-center"></i>
+                    </div>
+                    <p class="text-primary">HR</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <a href="../assessments" style="text-decoration: none;">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-success">Assessments</p>
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a href="../settings" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p class="text-primary">Settings</p>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-     <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-          aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Control Panel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Dashboard</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <a href="#" style="text-decoration: none;" class="text-success">
-                      <div class="squircle bg-success justify-content-center">
-                        <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>Academics</p>
-                    </a>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-trello fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>E-Learning</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-mail fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Messages</p>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-book fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Library</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <a href="../hr/" style="text-decoration: none;">
-                      <div class="squircle bg-primary justify-content-center">
-                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                      </div>
-                      <p>HR</p>
-                    </a>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Assessments</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Settings</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-     </main> <!-- main -->
+    </main> <!-- main -->
   </div> <!-- .wrapper -->
   <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>

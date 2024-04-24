@@ -14,6 +14,14 @@ session_start();
 // }
 
 
+// Check if user ID and email session variables are not set
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['email'])) {
+  // Redirect to login page
+  header("Location: ../login.html");
+  exit();
+}
+
+
 
 $servername = "localhost";
 $username = "root";
@@ -38,6 +46,8 @@ $_SESSION['term'] = '1';
 $_SESSION['session'] = '1';
 $session_id = $_SESSION['term'];
 $term = $_SESSION['session'];
+$full_name = 'Abdulkarim Hussain';
+$account_type = 'Super Admin';
 
 // SSS 3
 

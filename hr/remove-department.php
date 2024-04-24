@@ -1,6 +1,6 @@
 <?php
 
-require('settings.php');
+require('../settings.php');
 
 $user = 1;
 

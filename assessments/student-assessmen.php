@@ -179,144 +179,75 @@ require('../settings.php');
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item nav-category">Main</li>
+      <p class="text-muted nav-heading mt-4 mb-1">
+          <span>Questions</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="index.php">
-              <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
-              <span class="menu-title">Dashboard</span>
+            <a class="nav-link" href="question-bank.php">
+              <i class="fe fe-codesandbox fe-16"></i>
+              <span class="ml-3 item-text">Bank</span>
+              </i>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic30" aria-expanded="false"
-              aria-controls="ui-basic30">
-              <span class="icon-bg"><i class="mdi mdi-playlist-check menu-icon"></i></span>
-              <span class="menu-title">Assessments</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic30">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="assessments.php">By Student</a></li>
-                <li class="nav-item"> <a class="nav-link" href="assessment.php">By Subject</a></li>
-              </ul>
-            </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <span class="icon-bg"><i class="mdi mdi-city menu-icon"></i></span>
-              <span class="menu-title">Sections</span>
-              <i class="menu-arrow"></i>
+            <a class="nav-link" href="generate.php">
+              <i class="fe fe-sliders fe-16"></i>
+              <span class="ml-3 item-text">Generate</span>
+              </i>
             </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="add_subject.php">Add</a></li>
-                <li class="nav-item"> <a class="nav-link" href="subjects.php">List</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false"
-              aria-controls="ui-basic1">
-              <span class="icon-bg"><i class="mdi mdi-view-dashboard menu-icon"></i></span>
-              <span class="menu-title">Classes</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic1">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="add_class.php">Add</a></li>
-                <li class="nav-item"> <a class="nav-link" href="classes.php">List</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false"
-              aria-controls="ui-basic2">
-              <span class="icon-bg"><i class="mdi mdi-account-multiple menu-icon"></i></span>
-              <span class="menu-title">Students</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic2">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="add_student.php">Add</a></li>
-                <li class="nav-item"> <a class="nav-link" href="students.php">List</a></li>
-                <li class="nav-item"> <a class="nav-link" href="filter.php">Filter</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false"
-              aria-controls="ui-basic4">
-              <span class="icon-bg"><i class="mdi mdi mdi-book-multiple menu-icon"></i></span>
-              <span class="menu-title">Subjects</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic4">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="add_subject.php">Add</a></li>
-                <li class="nav-item"> <a class="nav-link" href="subjects.php">List</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="false"
-              aria-controls="ui-basic3">
-              <span class="icon-bg"><i class="mdi mdi-account-key menu-icon"></i></span>
-              <span class="menu-title">Staffs</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic3">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="add_staff.php">Add</a></li>
-                <li class="nav-item"> <a class="nav-link" href="staffs.php">Staffs</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item documentation-link">
-            <a class="nav-link" href="results.php">
-              <span class="icon-bg">
-                <i class="mdi mdi-file-document-box menu-icon"></i>
-              </span>
-              <span class="menu-title">Print Results</span>
-            </a>
-          </li>
-          <li class="nav-item sidebar-user-actions">
-            <div class="user-details">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="d-flex align-items-center">
-                    <div class="sidebar-profile-img">
-                      <span class="icon-bg"><i class="mdi mdi-account-check menu-icon"></i></span>
-                    </div>
-                    <div class="sidebar-profile-text">
-                      <p class="mb-1"> -Admin</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item sidebar-user-actions">
-            <div class="sidebar-user-menu">
-              <a href="settings.php" class="nav-link"><i class="mdi mdi-settings menu-icon"></i>
-                <span class="menu-title">Settings</span>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item sidebar-user-actions">
-            <div class="sidebar-user-menu">
-              <a href="#" class="nav-link"><i class="mdi mdi-speedometer menu-icon"></i>
-                <span class="menu-title">Documentation</span></a>
-            </div>
-          </li>
-          <li class="nav-item sidebar-user-actions">
-            <div class="sidebar-user-menu">
-              <a href="logout.php" class="nav-link"><i class="mdi mdi-logout menu-icon"></i>
-                <span class="menu-title">Log Out</span></a>
-            </div>
           </li>
         </ul>
-      </nav>
+
+        <!-- Academics -->
+        <p class="text-muted nav-heading mt-4 mb-1">
+          <span>Assessment</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="index.php">
+              <i class="fe fe-list fe-16"></i>
+              <span class="ml-3 item-text">Types</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="subjects.php">
+              <i class="fe fe-check-circle fe-16"></i>
+              <span class="ml-3 item-text">Mark by subject</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="students.php">
+              <i class="fe fe-user-check fe-16"></i>
+              <span class="ml-3 item-text">Mark by student</span>
+              </i>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Academics -->
+        <p class="text-muted nav-heading mt-4 mb-1">
+          <span>Results</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="add-remarks.php">
+              <i class="fe fe-edit-3 fe-16"></i>
+              <span class="ml-3 item-text">Add remarks</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="compile.php">
+              <i class="fe fe-tool fe-16"></i>
+              <span class="ml-3 item-text">Compile results</span>
+              </i>
+            </a>
+          </li>
+        </ul>
+
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
