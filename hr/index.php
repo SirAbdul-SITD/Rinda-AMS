@@ -415,7 +415,7 @@ require('../settings.php'); ?>
                   </a>
                 </div>
                 <div class="col-6 text-center">
-                  <a href="#" style="text-decoration: none;">
+                  <a href="../messages" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                     </div>
@@ -433,7 +433,7 @@ require('../settings.php'); ?>
                   </a>
                 </div>
                 <div class="col-6 text-center">
-                  <a href="../hr/" style="text-decoration: none;">
+                  <a href="#" style="text-decoration: none;">
                     <div class="squircle bg-success justify-content-center text-white">
                       <i class="fe fe-users fe-32 align-self-center"></i>
                     </div>

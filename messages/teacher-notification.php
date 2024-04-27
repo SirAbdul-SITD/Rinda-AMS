@@ -393,7 +393,7 @@ $content = isset($_COOKIE['content']) ? $_COOKIE['content'] : '';
                 </a>
                 </div>
                 <div class="col-6 text-center">
-                  <a href="#" style="text-decoration: none;">
+                  <a href="../academics" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
                     </div>

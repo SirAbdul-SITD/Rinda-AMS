@@ -315,8 +315,6 @@
               <div class="col-md-6">
                 <div class="card shadow eq-card mb-4">
                   <?php
-                  // Include database configuration
-                  include_once '../settings.php';
 
                   // Function to execute SQL query and fetch single value
                   function fetchSingleValue($pdo, $sql)
@@ -514,7 +512,7 @@ GROUP BY MONTH(order_date)";
                 <div class="card-body">
                   <div class="card-title">
                     <strong>Most Ordered Products</strong>
-                    <a class="float-right small text-muted" href="oders.php">View all</a>
+                    <a class="float-right small text-muted" href="orders.php">View all</a>
                   </div>
 
                   <?php
@@ -777,7 +775,7 @@ GROUP BY MONTH(order_date)";
                   </a>
                 </div>
                 <div class="col-6 text-center">
-                  <a href="#" style="text-decoration: none;">
+                  <a href="../messages" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                     </div>

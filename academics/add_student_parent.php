@@ -650,7 +650,7 @@ if (isset($_POST['id'])) {
                     </a>
                 </div>
                 <div class="col-6 text-center">
-                <a href="#" style="text-decoration: none; decoration">
+                <a href="../messages" style="text-decoration: none; decoration">
                   <div class="squircle bg-primary justify-content-center">
                     <i class="fe fe-mail fe-32 align-self-center text-white"></i>
                   </div>
