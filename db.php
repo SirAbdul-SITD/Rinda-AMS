@@ -23,10 +23,4 @@ try {
   echo "Connection failed: " . $e->getMessage();
 }
 
-
-$school_name = 'Rinda Academy';
-$school_address = '9022 Suspendisse Rd. High Wycombe 9022 Suspendisse Rd. High Wycombe';
-$school_email = 'gha@stradafrica.com.ng';
-$_SESSION['user'] = '1';
-
 ?>

@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $response['message'] = 'Login successful.';
             $response['sessionId'] = session_id(); // You can generate a custom session ID if needed
             // After confirming the credentials
-            $_SESSION['user_id'] = session_id(); // Set user ID
+            $_SESSION['user_id'] = $user['id']; // Set user ID
             $_SESSION['email'] = $email; // Set email
 
             $_SESSION['first_name'] = $user['first_name'];
