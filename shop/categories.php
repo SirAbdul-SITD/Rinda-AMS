@@ -145,24 +145,28 @@
               <span class="dot dot-md bg-success"></span>
             </a>
           </li>
-           <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="avatar avatar-sm mt-2">
-              <img src="../assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
-            </span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <div class=" col-12 text-left" >
-              <p style="padding: 0%; margin: 0%;"><?= $full_name; ?></p>
-              <strong><?= $account_type; ?></strong>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="avatar avatar-sm mt-2">
+                <img src="../assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+              </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <div class=" col-12 text-left">
+                <p style="padding: 0%; margin: 0%;">
+                  <?= $full_name; ?>
+                </p>
+                <strong>
+                  <?= $account_type; ?>
+                </strong>
+              </div>
+              <hr width="80%">
+              <a class="dropdown-item" href="../settings/profile.php">Profile</a>
+              <a class="dropdown-item" href="../settings">Settings</a>
+              <a class="dropdown-item" href="../logout.php">Log out</a>
             </div>
-            <hr width="80%">
-            <a class="dropdown-item" href="../settings/profile.php">Profile</a>
-            <a class="dropdown-item" href="../settings">Settings</a>
-            <a class="dropdown-item" href="../logout.php">Log out</a>
-          </div>
-        </li>
+          </li>
         </ul>
       </div>
     </nav>

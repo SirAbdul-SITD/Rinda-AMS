@@ -10,7 +10,7 @@ require('../settings.php'); ?>
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
-  <title>Rinda AMS - Rinda AMS</title>
+  <title>Human Resources | Rinda AMS</title>
   <!-- Simple bar CSS -->
   <link rel="stylesheet" href="../css/simplebar.css">
   <!-- Fonts CSS -->

@@ -6,12 +6,6 @@ session_start();
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 
-// Check if session variable is not set
-// if (!isset($_SESSION['user'])) {
-//   // Redirect to the login page
-//   header("Location: login.html");
-//   exit(); // Ensure that script execution stops after redirection
-// }
 
 
 // Check if user ID and email session variables are not set
@@ -37,7 +31,6 @@ try {
 }
 
 
-$api_key = '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';
 $school_name = 'Rinda Academy';
 $school_address = '9022 Suspendisse Rd. High Wycombe 9022 Suspendisse Rd. High Wycombe';
 $school_email = 'gha@stradafrica.com.ng';
