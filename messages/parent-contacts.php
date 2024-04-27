@@ -558,7 +558,36 @@
             </div> <!-- .col-12 -->
           </div> <!-- .row -->
         </div> <!-- .container-fluid -->
-       <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"         aria-hidden="true">         <div class="modal-dialog modal-sm" role="document">           <div class="modal-content">             <div class="modal-header">               <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>               <button type="button" class="close" data-dismiss="modal" aria-label="Close">                 <span aria-hidden="true">&times;</span>               </button>             </div>             <div class="modal-body">               <div class="list-group list-group-flush my-n3">                 <div class="list-group-item bg-transparent">                   <div class="row align-items-center">                      <div class="col text-center">                       <small><strong>You're well up to date</strong></small>                       <div class="my-0 text-muted small">No notifications available</div>                     </div>                   </div>                 </div>               </div> <!-- / .list-group -->             </div>             <div class="modal-footer">               <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal" disabled>Clear All</button>             </div>           </div>         </div>       </div> <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+       <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="list-group list-group-flush my-n3">
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+
+                    <div class="col text-center">
+                      <small><strong>You're well up to date</strong></small>
+                      <div class="my-0 text-muted small">No notifications available</div>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- / .list-group -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal" disabled>Clear All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -571,58 +600,74 @@
             <div class="modal-body px-5">
               <div class="row align-items-center">
                 <div class="col-6 text-center">
-                  <div class="squircle bg-success justify-content-center">
+                <a href="#" style="text-decoration: none;">
+                  <div class="squircle bg-primary justify-content-center">
                     <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
                   </div>
-                  <p>Control area</p>
+                  <p class="text-primary">Dashboard</p>
+                </a>
                 </div>
                 <div class="col-6 text-center">
+                  <a href="#" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Academics</p>
+                  </a>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                 <div class="col-6 text-center">
+                <a href="#" style="text-decoration: none;">
                   <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                    <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                   </div>
-                  <p>Admission</p>
+                  <p class="text-primary">E-Learning</p>
+                    </a>
+                </div>
+                <div class="col-6 text-center">
+                <a href="#" style="text-decoration: none;">
+                  <div class="squircle bg-success justify-content-center">
+                    <i class="fe fe-mail fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p class="text-success">Messages</p>
+                </a>
                 </div>
               </div>
               <div class="row align-items-center">
                 <div class="col-6 text-center">
+                <a href="../shop" style="text-decoration: none;">
                   <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                    <i class="fe fe-shopping-bag fe-32 align-self-center text-white"></i>
                   </div>
-                  <p>E-Learning</p>
+                  <p class="text-primary">Shop</p>
+                    </a>
                 </div>
                 <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Virtual Meetings</p>
-                </div>
-              </div>
-              <div class="row align-items-center">
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Library Management</p>
-                </div>
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                  </div>
-                  <p>Human Resources</p>
+                  <a href="../hr/" style="text-decoration: none;">
+                    <div class="squircle bg-primary justify-content-center text-white">
+                      <i class="fe fe-users fe-32 align-self-center"></i>
+                    </div>
+                    <p class="text-primary">HR</p>
+                  </a>
                 </div>
               </div>
               <div class="row align-items-center">
-                <div class="col-6 text-center">
-                  <div class="squircle bg-primary justify-content-center">
-                    <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                  <div class="col-6 text-center">
+                    <a href="../assessments" style="text-decoration: none;">
+                      <div class="squircle bg-primary justify-content-center">
+                        <i class="fe fe-check-circle fe-32 align-self-center text-white"></i>
+                      </div>
+                      <p class="text-primary">Assessments</p>
+                    </a>
                   </div>
-                  <p>Assessments</p>
-                </div>
                 <div class="col-6 text-center">
+                <a href="../settings" style="text-decoration: none;">
                   <div class="squircle bg-primary justify-content-center">
                     <i class="fe fe-settings fe-32 align-self-center text-white"></i>
                   </div>
-                  <p>Settings</p>
+                  <p class="text-primary">Settings</p>
+                    </a>
                 </div>
               </div>
             </div>

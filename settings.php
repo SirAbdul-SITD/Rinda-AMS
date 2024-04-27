@@ -39,8 +39,8 @@ $_SESSION['term'] = '1';
 $_SESSION['session'] = '1';
 $session_id = $_SESSION['term'];
 $term = $_SESSION['session'];
-$full_name = 'Abdulkarim Hussain';
-$account_type = 'Super Admin';
+$full_name = $_SESSION['first_name'] . ' ' . $_SESSION['first_name'];
+$account_type = $_SESSION['account_type'];
 
 // SSS 3
 
