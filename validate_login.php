@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate email and password
     if (!empty($email) && !empty($password)) {
         // Check if email exists in database
-        $query = "SELECT * FROM super_admin WHERE email = :email";
+        $query = "SELECT * FROM admin WHERE email = :email";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
