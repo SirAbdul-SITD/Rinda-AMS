@@ -42,6 +42,7 @@ $term = $_SESSION['session'];
 $full_name = $_SESSION['first_name'] . ' ' . $_SESSION['first_name'];
 $account_type = $_SESSION['account_type'];
 
+$api_key = 'uR7zBKWFD1nyU63AWTvry6wNBFkJfRkCfz8LnuBf';
 // SSS 3
 
 // Agricultural Science

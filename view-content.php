@@ -45,7 +45,7 @@ if (isset($_GET['subtopic'])) {
     }
 
     $data = json_encode([
-      'model' => 'gpt-3.5-turbo',
+      "max_tokens" => 2048,
       'messages' => [
         [
           "role" => "system",
@@ -58,21 +58,31 @@ if (isset($_GET['subtopic'])) {
       ],
     ]);
 
-    $ch = curl_init('https://api.openai.com/v1/chat/completions');
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-      'Content-Type: application/json',
-      'Authorization: Bearer ' . $api_key, 
-    ]);
+    // Initialize curl session
+$curl = curl_init();
 
-    $api_response = curl_exec($ch);
+// Set curl options
+curl_setopt_array($curl, [
+    CURLOPT_URL => "https://api.cloudflare.com/client/v4/accounts/d1e60664f7c51233c8e7a57dfac06c45/ai/run/@cf/meta/llama-3-8b-instruct",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 300,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => json_encode($data),
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer uR7zBKWFD1nyU63AWTvry6wNBFkJfRkCfz8LnuBf",
+        "Content-Type: application/json"
+    ],
+]);
 
-    if (curl_errno($ch)) {
-      echo 'cURL error: ' . curl_error($ch);
+    $api_response = curl_exec($curl);
+
+    if (curl_errno($curl)) {
+      echo 'cURL error: ' . curl_error($curl);
     } else {
-      $content = $api_response['choices'][0]['message']['content'];
+      $content = $api_response['result']['response'];
 
       $stmt = $pdo->prepare("INSERT INTO curriculum_contents (class, subject, topic, subtopic, content) VALUES (:class, :subject, :topic, :subtopic, :content)");
       $stmt->bindParam(':class', $class, PDO::PARAM_STR);
@@ -84,7 +94,7 @@ if (isset($_GET['subtopic'])) {
 
     }
 
-    curl_close($ch);
+    curl_close($curl);
   }
 }
 

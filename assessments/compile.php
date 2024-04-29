@@ -310,7 +310,7 @@
               </div>
               <div class="row align-items-center">
                 <div class="col-6 text-center">
-                  <a href="#" style="text-decoration: none;">
+                  <a href="../lms" style="text-decoration: none;">
                     <div class="squircle bg-primary justify-content-center">
                       <i class="fe fe-trello fe-32 align-self-center text-white"></i>
                     </div>
